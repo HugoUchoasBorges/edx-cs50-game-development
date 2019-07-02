@@ -12,6 +12,8 @@ PipePair = Class{}
 
 -- size of the gap between pipes
 local GAP_HEIGHT = 90
+
+-- Assignment Code .. I choose 12 because it seems right ;)
 local GAP_HEIGHT_RANDOM = 12
 
 function PipePair:init(y)
@@ -27,6 +29,7 @@ function PipePair:init(y)
     -- instantiate two pipes that belong to this pair
     self.pipes = {
         ['upper'] = Pipe('top', self.y),
+        -- Assignment Code .. Note that the math.random leads the game to a Easy Mode
         ['lower'] = Pipe('bottom', self.y + PIPE_HEIGHT + GAP_HEIGHT - math.random(-2*GAP_HEIGHT_RANDOM, GAP_HEIGHT_RANDOM))
     }
 

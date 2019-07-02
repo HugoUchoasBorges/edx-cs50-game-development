@@ -18,6 +18,7 @@ BIRD_WIDTH = 38
 BIRD_HEIGHT = 24
 
 local SPAWN_INTERVAL = 2
+-- Assignment Code
 local SPAWN_INTERVAL_VARIANT = 1
 
 function PlayState:init()
@@ -32,8 +33,11 @@ end
 
 function PlayState:update(dt)
     -- transition to Pause State when enter/return are pressed
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+
+    -- Assignment Code .. Enter/Return/P pauses the game
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('p')then
         -- Save the Game 'State' (main variables) into a dict/table
+        -- Assignment Code .. 
         params = {}
         for k, v in pairs(self) do
             params[k] = v
@@ -45,6 +49,7 @@ function PlayState:update(dt)
     self.timer = self.timer + dt
 
     -- spawn a new pipe pair every second and a half
+    -- Assignment Code .. 
     if self.timer > (SPAWN_INTERVAL + SPAWN_INTERVAL_VARIANT) then
         -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
         -- no higher than 10 pixels below the top edge of the screen,
@@ -58,6 +63,10 @@ function PlayState:update(dt)
 
         -- reset timer
         self.timer = 0
+        -- Assignment Code .. IMPORTANT: The SPAWN_INTERVAL_VARIANT is modified <<ONLY INSIDE>> this IF Condition
+        -- Again.. 2*(math.random()-0.2) feels right
+        -- math.random() (without parameters) returns an FLOAT between 0 and 1, that's what I need
+        -- math.random(a,b) (with parameters) returns and INTEGER, that's not what I need
         SPAWN_INTERVAL_VARIANT = 2*(math.random()-0.2)
     end
 
@@ -138,6 +147,7 @@ function PlayState:enter(params)
     end
 end
 
+-- Function to restore the game parameters through params
 function PlayState:restoreParameters(params)
 
     for k, v in pairs(params) do

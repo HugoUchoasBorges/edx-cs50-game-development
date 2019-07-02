@@ -14,6 +14,10 @@ COUNTDOWN_TIME = 0.75
 function PauseState:init()
     love.audio.pause(sounds['music'])
     love.audio.play(sounds['pause'])
+
+    -- The resume flag is used for start a Countdown timer before Resuming the game
+    -- I chose to do this way instead of calling the "Countdown state" because I wanted to show the countdown timer
+    -- in the same State as the Pause Information
     self.resume = false
     self.count = 3
     self.timer = 0
@@ -21,12 +25,13 @@ end
 
 function PauseState:update(dt)
     -- transition to countdown when enter/return are pressed
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('p') then
         love.audio.play(sounds['resume'])
         self.resume = true
     end
 
     if self.resume then
+        -- Assignment Code .. Only update the self.timer when the player 
         self.timer = self.timer + dt
     end
 
@@ -42,6 +47,7 @@ function PauseState:update(dt)
 end
 
 function PauseState:render()
+    -- Assignment Code .. Render the game normally (but don't animate it )
     for k, pair in pairs(self.pipePairs) do
         pair:render()
     end
@@ -66,6 +72,7 @@ end
 function PauseState:enter(params)
     self.params = params or {}
 
+    -- recover the parameters PauseState need to render
     self.pipePairs = self.params.pipePairs or nil
     self.score = self.params.score or nil
     self.bird = self.params.bird or nil

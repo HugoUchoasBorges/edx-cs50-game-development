@@ -35,7 +35,10 @@ require 'StateMachine'
 -- all states our StateMachine can transition between
 require 'states/BaseState'
 require 'states/CountdownState'
+
+-- Assignment Code ..  Created a New State
 require 'states/PauseState'
+
 require 'states/PlayState'
 require 'states/ScoreState'
 require 'states/TitleScreenState'
@@ -87,6 +90,7 @@ function love.load()
         ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
         ['score'] = love.audio.newSource('score.wav', 'static'),
 
+        -- Assignment Code .. 
         -- Included CS50 Assignment Sources
         ['pause'] = love.audio.newSource('Pause.wav', 'static'),
         ['resume'] = love.audio.newSource('Resume.wav', 'static'),
@@ -110,6 +114,7 @@ function love.load()
     gStateMachine = StateMachine {
         ['title'] = function() return TitleScreenState() end,
         ['countdown'] = function() return CountdownState() end,
+        -- Assignment Code .. New State
         ['pause'] = function() return PauseState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end
@@ -160,6 +165,7 @@ function love.mouse.wasPressed(button)
 end
 
 function love.update(dt)
+    -- Assignment Code .. Using the scrolling flag
     if (scrolling == true) then
         -- scroll our background and ground, looping back to 0 after a certain amount
         backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT

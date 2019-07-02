@@ -11,12 +11,14 @@
 ScoreState = Class{__includes = BaseState}
 
 -- CS50 Assignment - Medal Images
+-- Assignment Code .. 
 local medal = {
     ['gold'] = love.graphics.newImage('gold_medal.png'),
     ['silver'] = love.graphics.newImage('silver_medal.png'),
     ['bronze'] = love.graphics.newImage('bronze_medal.png')
 }
 
+-- Assignment Code .. I went too easy ;)
 local GOLD_REQUIRED_SCORE = 5
 local SILVER_REQUIRED_SCORE = 3
 local BRONZE_REQUIRED_SCORE = 1
@@ -28,6 +30,8 @@ local BRONZE_REQUIRED_SCORE = 1
 function ScoreState:enter(params)
     self.score = params.score
 
+    -- Assignment Code .. Conditions to score a medal
+    -- 'next_medal_score' keeps the additional score needed to win the next Medal
     if self.score >= GOLD_REQUIRED_SCORE then
         self.medal = medal['gold']
         self.next_medal_score = 0
@@ -59,10 +63,12 @@ function ScoreState:render()
     love.graphics.printf('Score: ' .. tostring(self.score), 0, 60, VIRTUAL_WIDTH, 'center')
 
 
+    -- Assignment Code .. Only render the medal if the player has won it 
     if (self.medal) then
         love.graphics.draw(self.medal, VIRTUAL_WIDTH / 2 - 64, 90)
     end
 
+    -- Assignment Code .. Only render the next medal score needed if there's another medal to win
     if (self.next_medal_score > 0) then
         love.graphics.setFont(smallFont)
         love.graphics.printf('+' .. tostring(self.next_medal_score) .. " to next Medal!!!", 0, 230, VIRTUAL_WIDTH, 'center')
