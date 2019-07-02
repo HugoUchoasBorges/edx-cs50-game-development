@@ -13,6 +13,7 @@ COUNTDOWN_TIME = 0.75
 
 function PauseState:init()
     love.audio.pause(sounds['music'])
+    love.audio.play(sounds['pause'])
     self.resume = false
     self.count = 3
     self.timer = 0
@@ -21,6 +22,7 @@ end
 function PauseState:update(dt)
     -- transition to countdown when enter/return are pressed
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        love.audio.play(sounds['resume'])
         self.resume = true
     end
 
