@@ -31,6 +31,16 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+    -- transition to Pause State when enter/return are pressed
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        -- Save the Game 'State' (main variables) into a dict/table
+        params = {}
+        for k, v in pairs(self) do
+            params[k] = v
+        end
+        gStateMachine:change('pause', params)
+    end
+
     -- update timer for pipe spawning
     self.timer = self.timer + dt
 
@@ -119,9 +129,20 @@ end
 --[[
     Called when this state is transitioned to from another state.
 ]]
-function PlayState:enter()
+function PlayState:enter(params)
     -- if we're coming from death, restart scrolling
     scrolling = true
+
+    if(params ~= nil and params ~= {}) then
+        self:restoreParameters(params)
+    end
+end
+
+function PlayState:restoreParameters(params)
+
+    for k, v in pairs(params) do
+        self[k] = v
+    end
 end
 
 --[[

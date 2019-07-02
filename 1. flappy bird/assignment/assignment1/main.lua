@@ -35,6 +35,7 @@ require 'StateMachine'
 -- all states our StateMachine can transition between
 require 'states/BaseState'
 require 'states/CountdownState'
+require 'states/PauseState'
 require 'states/PlayState'
 require 'states/ScoreState'
 require 'states/TitleScreenState'
@@ -105,6 +106,7 @@ function love.load()
     gStateMachine = StateMachine {
         ['title'] = function() return TitleScreenState() end,
         ['countdown'] = function() return CountdownState() end,
+        ['pause'] = function() return PauseState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end
     }
@@ -154,9 +156,11 @@ function love.mouse.wasPressed(button)
 end
 
 function love.update(dt)
-    -- scroll our background and ground, looping back to 0 after a certain amount
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
-    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+    if (scrolling == true) then
+        -- scroll our background and ground, looping back to 0 after a certain amount
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+        groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+    end
 
     gStateMachine:update(dt)
 
