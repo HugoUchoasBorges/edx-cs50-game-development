@@ -59,6 +59,10 @@ function Brick:init(x, y)
     self.y = y
     self.width = 32
     self.height = 16
+
+    self.powerup = false
+    -- Percentage
+    self.powerupChance = 100
     
     -- used to determine whether this brick should be rendered
     self.inPlay = true
@@ -126,14 +130,35 @@ function Brick:hit()
     if not self.inPlay then
         gSounds['brick-hit-1']:stop()
         gSounds['brick-hit-1']:play()
+        
+        if math.random( 100 ) < self.powerupChance then
+            -- Spawns a PowerUp in its place
+            self.powerup = PowerUp(
+                -- x-coordinate - Brick Center 
+                self.x + self.width / 2 - 8,
+
+                -- y-coordinate
+                self.y,
+
+                -- skin
+                math.random(9)
+            )
+        end
     end
 end
 
 function Brick:update(dt)
     self.psystem:update(dt)
+    if self.powerup then
+        self.powerup:update(dt)
+    end
 end
 
 function Brick:render()
+    if self.powerup then
+        self.powerup:render()
+    end
+
     if self.inPlay then
         love.graphics.draw(gTextures['main'], 
             -- multiply color by 4 (-1) to get our color offset, then add tier to that

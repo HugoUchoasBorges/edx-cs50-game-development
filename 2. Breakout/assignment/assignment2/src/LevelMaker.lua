@@ -112,6 +112,9 @@ function LevelMaker.createMap(level)
                 b.tier = solidTier
             end 
 
+            -- Calculates a percentage change of a brick to drop a powerup
+            b.powerupChance = tonumber( 100 * (b.color + b.tier) / (highestTier + highestColor) )
+
             table.insert(bricks, b)
 
             -- Lua's version of the 'continue' statement
