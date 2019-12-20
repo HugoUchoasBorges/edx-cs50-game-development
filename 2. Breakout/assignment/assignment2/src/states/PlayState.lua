@@ -29,7 +29,7 @@ function PlayState:enter(params)
     self.ball = params.ball
     self.level = params.level
 
-    self.recoverPoints = 5000
+    self.recoverPoints = params.recoverPoints
 
     -- give ball random starting velocity
     self.ball.dx = math.random(-200, 200)
@@ -113,11 +113,27 @@ function PlayState:update(dt)
                 table.insert(newBalls, b2)
             end
 
+            -- if special key powerup collides with paddle, activate it
+            if brick.keyPowerups then
+                for k, powerup in pairs(brick.keyPowerups) do
+                    if powerup:collides(self.paddle) then
+                        powerup.inPlay = false
+                        gSounds['recover']:play()
+
+                        -- Unlock keyBrick to be destroyed
+                        brick.unlocked = true
+                    end
+                end
+            end
+
             -- only check collision if we're in play
             if brick.inPlay and ball:collides(brick) then
 
                 -- add to score
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
+                if brick.isKeyBrick then
+                    self.score = self.score + 3000
+                end
 
                 -- trigger the brick's hit function, which removes it from play
                 brick:hit()

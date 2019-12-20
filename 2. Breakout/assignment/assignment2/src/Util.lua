@@ -134,3 +134,35 @@ end
 function GenerateQuadsPowerUps(atlas)
     return table.slice(GenerateQuads(atlas, 16, 16), 145, 153)
 end
+
+--[[
+    This function is specifically made to piece out the Key special Brick from the
+    sprite sheet.
+]]
+function GenerateQuadKeyBrick(atlas)
+    local x = 160
+    local y = 48
+
+    local quadWidth = 32
+    local quadHeight = 16
+
+    local quad = love.graphics.newQuad(x, y, quadWidth, quadHeight, atlas:getDimensions())
+
+    return quad
+end
+
+--[[
+    This function is specifically made to piece out the Key special powerup from the
+    sprite sheet.
+]]
+function GenerateQuadKeyPowerUp(atlas)
+    local x = 144
+    local y = 192
+
+    local quadWidth = 16
+    local quadHeight = 16
+
+    local quad = love.graphics.newQuad(x, y, quadWidth, quadHeight, atlas:getDimensions())
+
+    return quad
+end

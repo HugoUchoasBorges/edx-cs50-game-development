@@ -60,9 +60,14 @@ function Brick:init(x, y)
     self.width = 32
     self.height = 16
 
+    self.isKeyBrick = false
+
     self.powerup = false
     -- Percentage
     self.powerupChance = 100
+
+    self.keyPowerups = {}
+    self.unlocked = false
     
     -- used to determine whether this brick should be rendered
     self.inPlay = true
@@ -108,6 +113,18 @@ function Brick:hit()
     gSounds['brick-hit-2']:stop()
     gSounds['brick-hit-2']:play()
 
+
+    if self.isKeyBrick then
+        gSounds['brick-hit-1']:stop()
+        gSounds['brick-hit-1']:play()
+
+        if not self.unlocked then
+            self:generatePowerUp()
+        else
+            self.inPlay = false
+        end
+        return
+    end
     -- if we're at a higher tier than the base, we need to go down a tier
     -- if we're already at the lowest color, else just go down a color
     if self.tier > 0 then
@@ -136,6 +153,23 @@ function Brick:hit()
 end
 
 function Brick:generatePowerUp()
+    if self.isKeyBrick then
+        p = PowerUp(
+            -- x-coordinate - Brick Center 
+            self.x + self.width / 2 - 8,
+
+            -- y-coordinate
+            self.y,
+
+            -- skin (-1 means keyPowerUp)
+            -1
+        )
+
+        table.insert(self.keyPowerups, p)
+
+        return
+    end
+
     if math.random( 100 ) < self.powerupChance then
         -- Spawns a PowerUp in its place
         self.powerup = PowerUp(
@@ -156,6 +190,12 @@ function Brick:update(dt)
     if self.powerup then
         self.powerup:update(dt)
     end
+
+    if self.keyPowerups then
+        for k, powerup in pairs(self.keyPowerups) do
+            powerup:update(dt)     
+        end
+    end
 end
 
 function Brick:render()
@@ -163,12 +203,31 @@ function Brick:render()
         self.powerup:render()
     end
 
+    if self.keyPowerups then
+        for k, powerup in pairs(self.keyPowerups) do
+            powerup:render()     
+        end
+    end
+
     if self.inPlay then
-        love.graphics.draw(gTextures['main'], 
-            -- multiply color by 4 (-1) to get our color offset, then add tier to that
-            -- to draw the correct tier and color brick onto the screen
-            gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
-            self.x, self.y)
+        if self.isKeyBrick then
+            love.graphics.draw(gTextures['main'], 
+                -- multiply color by 4 (-1) to get our color offset, then add tier to that
+                -- to draw the correct tier and color brick onto the screen
+                gFrames['keyBrick'],
+                self.x, self.y)
+
+            if self.unlocked then
+                love.graphics.draw(gTextures['main'], gFrames['keyPowerUp'],
+                self.x - 8 + self.width / 2, self.y)
+            end
+        else
+            love.graphics.draw(gTextures['main'], 
+                -- multiply color by 4 (-1) to get our color offset, then add tier to that
+                -- to draw the correct tier and color brick onto the screen
+                gFrames['bricks'][1 + ((self.color - 1) * 4) + self.tier],
+                self.x, self.y)
+        end
     end
 end
 

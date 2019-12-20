@@ -33,6 +33,10 @@ LevelMaker = Class{}
 function LevelMaker.createMap(level)
     local bricks = {}
 
+    -- The chance (in percentage) of spawning a special KeyBrick
+    local keyBrickChance = 10
+    local keyBrickSpawned = false
+
     -- randomly choose the number of rows
     local numRows = math.random(1, 5)
 
@@ -95,25 +99,31 @@ function LevelMaker.createMap(level)
                 y * 16                  -- just use y * 16, since we need top padding anyway
             )
 
-            -- if we're alternating, figure out which color/tier we're on
-            if alternatePattern and alternateFlag then
-                b.color = alternateColor1
-                b.tier = alternateTier1
-                alternateFlag = not alternateFlag
+            if not keyBrickSpawned and math.random(100) < keyBrickChance then
+                b.isKeyBrick = true
+                keyBrickSpawned = true
+
             else
-                b.color = alternateColor2
-                b.tier = alternateTier2
-                alternateFlag = not alternateFlag
+                -- if we're alternating, figure out which color/tier we're on
+                if alternatePattern and alternateFlag then
+                    b.color = alternateColor1
+                    b.tier = alternateTier1
+                    alternateFlag = not alternateFlag
+                else
+                    b.color = alternateColor2
+                    b.tier = alternateTier2
+                    alternateFlag = not alternateFlag
+                end
+
+                -- if not alternating and we made it here, use the solid color/tier
+                if not alternatePattern then
+                    b.color = solidColor
+                    b.tier = solidTier
+                end 
+
+                -- Calculates a percentage change of a brick to drop a powerup
+                b.powerupChance = 10 + tonumber( 100 * (b.color + b.tier) / (highestTier + highestColor) )
             end
-
-            -- if not alternating and we made it here, use the solid color/tier
-            if not alternatePattern then
-                b.color = solidColor
-                b.tier = solidTier
-            end 
-
-            -- Calculates a percentage change of a brick to drop a powerup
-            b.powerupChance = tonumber( 100 * (b.color + b.tier) / (highestTier + highestColor) )
 
             table.insert(bricks, b)
 
