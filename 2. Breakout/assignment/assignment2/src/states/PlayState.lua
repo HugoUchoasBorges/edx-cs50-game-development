@@ -57,6 +57,7 @@ function PlayState:update(dt)
     self.paddle:update(dt)
 
     local newBalls = {}
+    local ballsToRemove = false
     for k, ball in pairs(self.balls) do
         ball:update(dt)
 
@@ -87,6 +88,7 @@ function PlayState:update(dt)
             -- if powerup collides with paddle, activate it
             if brick.powerup and brick.powerup:collides(self.paddle) then
                 brick.powerup.inPlay = false
+                gSounds['recover']:play()
 
                 -- init new ball (random color for fun)
                 local b1 = Ball()
@@ -124,6 +126,9 @@ function PlayState:update(dt)
                 if self.score > self.recoverPoints then
                     -- can't go above 3 health
                     self.health = math.min(3, self.health + 1)
+
+                    -- increase paddle's size
+                    self.paddle:changeSize(self.paddle.size + 1)
 
                     -- multiply recover points by 2
                     self.recoverPoints = math.min(100000, self.recoverPoints * 2)
@@ -205,15 +210,19 @@ function PlayState:update(dt)
     end
 
     local doServe = true
+    local decreasePaddle = false
     for k, ball in pairs(self.balls) do
         if ball.inPlay then
             if ball.y < VIRTUAL_HEIGHT then
                 doServe = false
             else 
+                decreasePaddle = true
                 ball.inPlay = false
                 ballsToRemove = true
             end
-            break
+            if not doServe and decreasePaddle then
+                break
+            end
         end
     end
 
@@ -226,9 +235,17 @@ function PlayState:update(dt)
         ballsToRemove = {}
     end
 
+    if decreasePaddle then
+        -- Decrease paddle size
+        self.paddle:changeSize(self.paddle.size - 1)
+        decreasePaddle = false
+        gSounds['hurt']:play()
+    end
+
     -- if ball goes below bounds, revert to serve state and decrease health
     if doServe then
         self.health = self.health - 1
+
         gSounds['hurt']:play()
 
         if self.health == 0 then
