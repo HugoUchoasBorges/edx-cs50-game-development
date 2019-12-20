@@ -206,11 +206,26 @@ function PlayState:update(dt)
 
     local doServe = true
     for k, ball in pairs(self.balls) do
-        if ball.y < VIRTUAL_HEIGHT then
-            doServe = false
+        if ball.inPlay then
+            if ball.y < VIRTUAL_HEIGHT then
+                doServe = false
+            else 
+                ball.inPlay = false
+                ballsToRemove = true
+            end
             break
         end
     end
+
+    if ballsToRemove then
+        for k, ball in pairs(self.balls) do
+            if not ball.inPlay then
+                ball = nil
+            end
+        end
+        ballsToRemove = {}
+    end
+
     -- if ball goes below bounds, revert to serve state and decrease health
     if doServe then
         self.health = self.health - 1
