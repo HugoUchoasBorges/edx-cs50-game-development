@@ -135,6 +135,9 @@ function PlayState:update(dt)
 
                     -- play recover sound effect
                     gSounds['recover']:play()
+
+                    -- Generates a PowerUp (possibly)
+                    brick:generatePowerUp()
                 end
 
                 -- go to our victory screen if there are no more bricks left

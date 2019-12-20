@@ -131,19 +131,23 @@ function Brick:hit()
         gSounds['brick-hit-1']:stop()
         gSounds['brick-hit-1']:play()
         
-        if math.random( 100 ) < self.powerupChance then
-            -- Spawns a PowerUp in its place
-            self.powerup = PowerUp(
-                -- x-coordinate - Brick Center 
-                self.x + self.width / 2 - 8,
+        self:generatePowerUp()
+    end
+end
 
-                -- y-coordinate
-                self.y,
+function Brick:generatePowerUp()
+    if math.random( 100 ) < self.powerupChance then
+        -- Spawns a PowerUp in its place
+        self.powerup = PowerUp(
+            -- x-coordinate - Brick Center 
+            self.x + self.width / 2 - 8,
 
-                -- skin
-                math.random(9)
-            )
-        end
+            -- y-coordinate
+            self.y,
+
+            -- skin
+            math.random(9)
+        )
     end
 end
 
