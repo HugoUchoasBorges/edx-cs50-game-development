@@ -159,6 +159,24 @@ function Board:calculateMatches()
     -- store matches for later reference
     self.matches = matches
 
+    -- detect shiny tiles and add their entire rows to the matches
+    local matchRows = {}
+    for k, match in pairs(self.matches) do
+        for k2, tile in pairs(match) do
+            if tile.shiny then
+                table.insert(matchRows, tile.gridY)
+            end
+        end
+    end
+
+    for k, row in pairs(matchRows) do
+        local match = {}
+        for x = 1, 8 do
+            table.insert(match, self.tiles[row][x])
+        end
+        table.insert(matches, match)
+    end
+
     -- return matches table if > 0, else just return false
     return #self.matches > 0 and self.matches or false
 end
