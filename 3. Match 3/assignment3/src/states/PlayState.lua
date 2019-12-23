@@ -39,6 +39,9 @@ function PlayState:init()
     self.score = 0
     self.timer = 60
 
+    -- How many seconds will be added to timer for tile in match
+    self.bonusTimerSec = 1
+
     -- set our Timer class to turn cursor highlight on and off
     Timer.every(0.5, function()
         self.rectHighlighted = not self.rectHighlighted
@@ -194,8 +197,11 @@ function PlayState:calculateMatches()
         gSounds['match']:play()
 
         -- add score for each match
+        -- Also Increases timer by 'bonusTimerSec' for every tile matched
         for k, match in pairs(matches) do
             self.score = self.score + #match * 50
+            self.timer = self.timer + #match * self.bonusTimerSec
+
         end
 
         -- remove any tiles that matched from the board, making empty spaces
