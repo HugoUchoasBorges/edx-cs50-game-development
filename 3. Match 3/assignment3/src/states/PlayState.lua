@@ -199,7 +199,10 @@ function PlayState:calculateMatches()
         -- add score for each match
         -- Also Increases timer by 'bonusTimerSec' for every tile matched
         for k, match in pairs(matches) do
-            self.score = self.score + #match * 50
+            for l, tile in pairs(match) do
+                self.score = self.score + tile.variety * 50
+            end
+            
             self.timer = self.timer + #match * self.bonusTimerSec
 
         end
