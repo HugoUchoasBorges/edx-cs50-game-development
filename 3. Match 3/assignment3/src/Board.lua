@@ -18,6 +18,14 @@ function Board:init(x, y, level)
     self.y = y
     self.matches = {}
 
+    -- Tile Diversity
+    self.maxTileVariety = math.random(1, math.min(level, 6))
+
+    -- Tile Colors
+    local maxTileColors = math.random(1, self.maxTileVariety + 4)
+    self.tileFirstColor = math.random(1, 18 - maxTileColors)
+    self.tileLastColor = self.tileFirstColor + maxTileColors - 1
+
     self.level = level
 
     self:initializeTiles()
@@ -34,7 +42,9 @@ function Board:initializeTiles()
         for tileX = 1, 8 do
             
             -- create a new tile at X,Y with a random color and variety
-            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(1, math.max(1, math.min(6, self.level)))))
+            table.insert(self.tiles[tileY], Tile(tileX, tileY, 
+            math.random(self.tileFirstColor, self.tileLastColor), 
+            math.random(1, self.maxTileVariety)))
         end
     end
 
@@ -260,7 +270,9 @@ function Board:getFallingTiles()
             if not tile then
 
                 -- new tile with random color and variety
-                local tile = Tile(x, y, math.random(18), math.random(1, math.max(1, math.min(6, self.level))))
+                local tile = Tile(x, y, 
+                math.random(self.tileFirstColor, self.tileLastColor), 
+                math.random(1, self.maxTileVariety))
                 tile.y = -32
                 self.tiles[y][x] = tile
 
