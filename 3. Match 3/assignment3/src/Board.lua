@@ -13,6 +13,16 @@
 
 Board = Class{}
 
+local function has_value (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
 function Board:init(x, y, level)
     self.x = x
     self.y = y
@@ -22,15 +32,20 @@ function Board:init(x, y, level)
     self.maxTileVariety = math.random(1, math.min(level, 6))
 
     -- Tile Colors
-    self.maxTileColors = math.random(math.min(3, self.maxTileVariety), 8 - self.maxTileVariety)
-    -- self.tileFirstColor = math.random(1, 18 - maxTileColors)
-    -- self.tileLastColor = self.tileFirstColor + maxTileColors - 1
+    local minTileColors = math.max(1, self.maxTileVariety - 4)
+    self.maxTileColors = math.max(minTileColors, math.random(minTileColors, 8 - self.maxTileVariety))
     self.tileColors = {}
 
     self.level = level
 
-    for i = 1, self.maxTileColors do
-        table.insert(self.tileColors, math.random(18))
+    local randomVal = 0
+    for i = 1, self.maxTileColors + 1 do
+        
+        repeat 
+            randomVal = math.random(1, 18)
+        until not has_value(self.tileColors, randomVal)
+
+        table.insert(self.tileColors, randomVal)
     end
 
     self:initializeTiles()
