@@ -32,7 +32,7 @@ function Board:init(x, y, level)
     self.maxTileVariety = math.random(1, math.min(level, 6))
 
     -- Tile Colors
-    local minTileColors = math.max(1, self.maxTileVariety - 4)
+    local minTileColors = math.max(1, 4 - self.maxTileVariety)
     self.maxTileColors = math.max(minTileColors, math.random(minTileColors, 8 - self.maxTileVariety))
     self.tileColors = {}
 
