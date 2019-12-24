@@ -22,11 +22,16 @@ function Board:init(x, y, level)
     self.maxTileVariety = math.random(1, math.min(level, 6))
 
     -- Tile Colors
-    local maxTileColors = math.random(1, self.maxTileVariety + 4)
-    self.tileFirstColor = math.random(1, 18 - maxTileColors)
-    self.tileLastColor = self.tileFirstColor + maxTileColors - 1
+    self.maxTileColors = math.random(math.min(3, self.maxTileVariety), 8 - self.maxTileVariety)
+    -- self.tileFirstColor = math.random(1, 18 - maxTileColors)
+    -- self.tileLastColor = self.tileFirstColor + maxTileColors - 1
+    self.tileColors = {}
 
     self.level = level
+
+    for i = 1, self.maxTileColors do
+        table.insert(self.tileColors, math.random(18))
+    end
 
     self:initializeTiles()
 end
@@ -43,7 +48,7 @@ function Board:initializeTiles()
             
             -- create a new tile at X,Y with a random color and variety
             table.insert(self.tiles[tileY], Tile(tileX, tileY, 
-            math.random(self.tileFirstColor, self.tileLastColor), 
+            self.tileColors[math.random(#self.tileColors-1)], 
             math.random(1, self.maxTileVariety)))
         end
     end
@@ -70,6 +75,7 @@ function Board:calculateMatches()
     -- horizontal matches first
     for y = 1, 8 do
         local colorToMatch = self.tiles[y][1].color
+        local varietyToMatch = self.tiles[y][1].variety
 
         matchNum = 1
         
@@ -77,12 +83,13 @@ function Board:calculateMatches()
         for x = 2, 8 do
             
             -- if this is the same color as the one we're trying to match...
-            if self.tiles[y][x].color == colorToMatch then
+            if self.tiles[y][x].color == colorToMatch and self.tiles[y][x].variety == varietyToMatch then
                 matchNum = matchNum + 1
             else
                 
                 -- set this as the new color we want to watch for
                 colorToMatch = self.tiles[y][x].color
+                varietyToMatch = self.tiles[y][x].variety
 
                 -- if we have a match of 3 or more up to now, add it to our matches table
                 if matchNum >= 3 then
@@ -124,15 +131,17 @@ function Board:calculateMatches()
     -- vertical matches
     for x = 1, 8 do
         local colorToMatch = self.tiles[1][x].color
+        local varietyToMatch = self.tiles[1][x].variety
 
         matchNum = 1
 
         -- every vertical tile
         for y = 2, 8 do
-            if self.tiles[y][x].color == colorToMatch then
+            if self.tiles[y][x].color == colorToMatch and self.tiles[y][x].variety == varietyToMatch then
                 matchNum = matchNum + 1
             else
                 colorToMatch = self.tiles[y][x].color
+                varietyToMatch = self.tiles[y][x].variety
 
                 if matchNum >= 3 then
                     local match = {}
@@ -271,7 +280,7 @@ function Board:getFallingTiles()
 
                 -- new tile with random color and variety
                 local tile = Tile(x, y, 
-                math.random(self.tileFirstColor, self.tileLastColor), 
+                self.tileColors[math.random(#self.tileColors-1)], 
                 math.random(1, self.maxTileVariety))
                 tile.y = -32
                 self.tiles[y][x] = tile
