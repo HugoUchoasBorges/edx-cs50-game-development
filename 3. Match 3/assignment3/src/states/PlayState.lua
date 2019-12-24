@@ -164,6 +164,7 @@ function PlayState:update(dt)
                 self.board.tiles[newTile.gridY][newTile.gridX] = newTile
 
                 -- tween coordinates between the two so they swap
+                self.canInput = false
                 Timer.tween(0.1, {
                     [self.highlightedTile] = {x = newTile.x, y = newTile.y},
                     [newTile] = {x = self.highlightedTile.x, y = self.highlightedTile.y}
@@ -171,8 +172,38 @@ function PlayState:update(dt)
                 
                 -- once the swap is finished, we can tween falling blocks as needed
                 :finish(function()
-                    self:calculateMatches()
+                    local tile1 = self.board.tiles[newTile.gridY][newTile.gridX]
+                    local tile2 = self.board.tiles[self.highlightedTile.gridY][self.highlightedTile.gridX]
+                    if not self:calculateMatches() then
+                        tempX = tile1.gridX
+                        tempY = tile1.gridY
+
+                        tile2 = self.board.tiles[y][x]
+
+                        tile1.gridX = tile2.gridX
+                        tile1.gridY = tile2.gridY
+                        tile2.gridX = tempX
+                        tile2.gridY = tempY
+
+                        -- swap tiles in the tiles table
+                        self.board.tiles[tile1.gridY][tile1.gridX] =
+                            tile1
+
+                        self.board.tiles[tile2.gridY][tile2.gridX] = tile2
+
+                        gSounds['error']:play()
+
+                        Timer.after(0.5, function()
+                            Timer.tween(0.1, {
+                                [tile1] = {x = tile2.x, y = tile2.y},
+                                [tile2] = {x = tile1.x, y = tile1.y}
+                            }):finish(function() self.canInput = true end)
+                        end)
+                    else
+                        self.canInput = true
+                    end
                 end)
+
             end
         end
     end
@@ -224,10 +255,12 @@ function PlayState:calculateMatches()
             -- as a result of falling blocks once new blocks have finished falling
             self:calculateMatches()
         end)
+
+        return true
     
     -- if no matches, we can continue playing
     else
-        self.canInput = true
+        return false
     end
 end
 
