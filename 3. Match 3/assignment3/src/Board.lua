@@ -80,9 +80,66 @@ end
     Calculates whether any matches are possible on the board
 ]]
 function Board:calculatePotentialMatches()
-    local match = false
+    for y = 1, 8 do
+        for x = 1, 8 do
+            local tile = self.tiles[y][x]
+            if not tile then
+                return true
+            end
+            
+            local neighbors = {
+                ['up'] = {y+1, x},
+                ['down'] = {y+1, x},
+                ['left'] = {y, x-1},
+                ['right'] = {y, x+1}
+            }
+
+            for k, coord in pairs(neighbors) do
+                local y2 = coord[1]
+                local x2 = coord[2]
+                if y2 > 0 and y2 < 9 and x2 > 0 and x2 < 9 then
+                    local newTile = self.tiles[y2][x2]
+
+                    if not newTile then
+                        return true
+                    end
+
+                    -- swap grid positions of tiles
+                    local tempX = tile.gridX
+                    local tempY = tile.gridY
+
+                    tile.gridX = newTile.gridX
+                    tile.gridY = newTile.gridY
+                    newTile.gridX = tempX
+                    newTile.gridY = tempY
+
+                    -- swap tiles in the tiles table
+                    self.tiles[tile.gridY][tile.gridX] = tile
+                    self.tiles[newTile.gridY][newTile.gridX] = newTile
+
+                    local matches = self:calculateMatches()
+
+                    tempX = tile.gridX
+                    tempY = tile.gridY
+
+                    tile.gridX = newTile.gridX
+                    tile.gridY = newTile.gridY
+                    newTile.gridX = tempX
+                    newTile.gridY = tempY
+
+                    -- swap tiles in the tiles table
+                    self.tiles[tile.gridY][tile.gridX] = tile
+                    self.tiles[newTile.gridY][newTile.gridX] = newTile
+
+                    if matches then
+                        return true
+                    end
+                end
+            end
+        end
+    end
     
-    return match
+    return false
 end
 
 --[[

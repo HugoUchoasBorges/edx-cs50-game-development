@@ -71,6 +71,8 @@ function PlayState:enter(params)
 
     -- score we have to reach to get to the next level
     self.scoreGoal = self.level * 1.25 * 1000
+
+    self:calculatePotentialMatches()
 end
 
 --[[
@@ -204,20 +206,12 @@ function PlayState:update(dt)
                                 [tile1] = {x = tile2.x, y = tile2.y},
                                 [tile2] = {x = tile1.x, y = tile1.y}
                             }):finish(function() 
-                                if not self:calculatePotentialMatches() then
-                                    Timer.after(1, function()
-                                    self:gameover() end 
-                                )
-                                end
+                                self:calculatePotentialMatches()
                                 self.canInput = true 
                             end)
                         end)
                     else
-                        if not self:calculatePotentialMatches() then
-                            Timer.after(1, function()
-                            self:gameover() end 
-                        )
-                        end
+                        self:calculatePotentialMatches()
                         self.canInput = true
                     end
                     
@@ -234,7 +228,11 @@ end
     Calculates whether any matches are possible on the board
 ]]
 function PlayState:calculatePotentialMatches()
-    return self.board:calculatePotentialMatches()
+    Timer.after(0.5, function() 
+        if not self.board:calculatePotentialMatches() then
+            self:gameover()
+        end
+    end)
 end
 
 --[[
