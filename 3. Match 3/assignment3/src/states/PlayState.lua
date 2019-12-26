@@ -73,6 +73,19 @@ function PlayState:enter(params)
     self.scoreGoal = self.level * 1.25 * 1000
 end
 
+--[[
+    GameOver function
+]]
+function PlayState:gameover()
+    -- clear timers from prior PlayStates
+            
+    gSounds['game-over']:play()
+
+    gStateMachine:change('game-over', {
+        score = self.score
+    })
+end
+
 function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
@@ -80,15 +93,8 @@ function PlayState:update(dt)
 
     -- go back to start if time runs out
     if self.timer <= 0 then
-        
-        -- clear timers from prior PlayStates
         Timer.clear()
-        
-        gSounds['game-over']:play()
-
-        gStateMachine:change('game-over', {
-            score = self.score
-        })
+        self:gameover()
     end
 
     -- go to next level if we surpass score goal
@@ -197,11 +203,24 @@ function PlayState:update(dt)
                             Timer.tween(0.1, {
                                 [tile1] = {x = tile2.x, y = tile2.y},
                                 [tile2] = {x = tile1.x, y = tile1.y}
-                            }):finish(function() self.canInput = true end)
+                            }):finish(function() 
+                                if not self:calculatePotentialMatches() then
+                                    Timer.after(1, function()
+                                    self:gameover() end 
+                                )
+                                end
+                                self.canInput = true 
+                            end)
                         end)
                     else
+                        if not self:calculatePotentialMatches() then
+                            Timer.after(1, function()
+                            self:gameover() end 
+                        )
+                        end
                         self.canInput = true
                     end
+                    
                 end)
 
             end
@@ -209,6 +228,13 @@ function PlayState:update(dt)
     end
 
     Timer.update(dt)
+end
+
+--[[
+    Calculates whether any matches are possible on the board
+]]
+function PlayState:calculatePotentialMatches()
+    return self.board:calculatePotentialMatches()
 end
 
 --[[

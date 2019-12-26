@@ -77,6 +77,15 @@ function Board:initializeTiles()
 end
 
 --[[
+    Calculates whether any matches are possible on the board
+]]
+function Board:calculatePotentialMatches()
+    local match = false
+    
+    return match
+end
+
+--[[
     Goes left to right, top to bottom in the board, calculating matches by counting consecutive
     tiles of the same color. Doesn't need to check the last tile in every row or column if the 
     last two haven't been a match.
