@@ -18,8 +18,16 @@ function PlayState:init()
     self.gravityOn = true
     self.gravityAmount = 6
 
+    -- Player X initial position
+    local playerX = 0
+    
+    -- This loop makes sure the player spawns above solid ground
+    while self.level.tileMap:pointToTile(playerX, TILE_SIZE * 7).id == TILE_ID_EMPTY do
+        playerX = playerX + TILE_SIZE
+    end
+
     self.player = Player({
-        x = 0, y = 0,
+        x = playerX, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {
