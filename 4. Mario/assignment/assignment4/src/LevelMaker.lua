@@ -22,6 +22,10 @@ function LevelMaker.generate(width, height)
     local tileset = math.random(20)
     local topperset = math.random(20)
 
+    -- whether the lock and key were already spawned
+    local lock_placed = false
+    local key_placed = false
+
     -- insert blank tables into tiles for later access
     for x = 1, height do
         table.insert(tiles, {})
@@ -91,6 +95,50 @@ function LevelMaker.generate(width, height)
                         collidable = false
                     }
                 )
+            else
+                if not lock_placed then
+                    -- chance of spawning a lock
+                    if math.random(15) == 1 then
+                        table.insert(objects,
+                            GameObject {
+                                texture = 'keys_and_locks',
+                                x = (x - 1) * TILE_SIZE,
+                                y = (6 - 1) * TILE_SIZE,
+                                width = 16,
+                                height = 16,
+                                frame = 5 + math.random(4) - 1,
+                                collidable = true,
+                                hit = false,
+                                solid = true
+                            }
+                        )
+                        lock_placed = true
+                    end
+                end
+                if not key_placed then
+                    -- chance of spawning a key
+                    if math.random(12) == 1 then
+                        table.insert(objects,
+                            GameObject {
+                                texture = 'keys_and_locks',
+                                x = (x - 1) * TILE_SIZE,
+                                y = (6 - 1) * TILE_SIZE,
+                                width = 16,
+                                height = 16,
+                                frame = math.random(4),
+                                collidable = true,
+                                hit = false,
+                                solid = false,
+                                consumable = true,
+                                
+                                onConsume = function(player, object)
+                                    gSounds['pickup']:play()
+                                end
+                            }
+                        )
+                        key_placed = true
+                    end
+                end
             end
 
             -- chance to spawn a block
