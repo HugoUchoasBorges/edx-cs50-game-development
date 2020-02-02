@@ -65,6 +65,9 @@ function LevelMaker.generate(width, height)
                     Tile(x, y, tileID, y == 7 and topper or nil, tileset, topperset))
             end
 
+            -- Avoiding lock and key placed in the same spot
+            local lock_or_key_placed = false
+
             -- chance to generate a pillar
             if math.random(8) == 1 then
                 blockHeight = 2
@@ -104,9 +107,11 @@ function LevelMaker.generate(width, height)
                     }
                 )
             else
-                if not lock_placed then
+                if not lock_or_key_placed and not lock_placed then
                     -- chance of spawning a lock
-                    if math.random(4) == 1 then
+                    if math.random(1) == 1 then
+                        lock_or_key_placed = true
+
                         lock_gameobject = GameObject {
                             texture = 'keys_and_locks',
                             x = (x - 1) * TILE_SIZE,
@@ -133,9 +138,11 @@ function LevelMaker.generate(width, height)
                         lock_placed = true
                     end
                 end
-                if not key_placed then
+                if not lock_or_key_placed and not key_placed then
                     -- chance of spawning a key
                     if math.random(1) == 1 then
+                        lock_or_key_placed = true
+
                         key_gameobject = GameObject {
                             texture = 'keys_and_locks',
                             x = (x - 1) * TILE_SIZE,
@@ -164,7 +171,7 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to spawn a block
-            if math.random(10) == 1 then
+            if not lock_or_key_placed and math.random(10) == 1 then
                 table.insert(objects,
 
                     -- jump block
