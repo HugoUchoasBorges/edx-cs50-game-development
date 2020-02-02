@@ -109,7 +109,7 @@ function LevelMaker.generate(width, height)
             else
                 if not lock_or_key_placed and not lock_placed then
                     -- chance of spawning a lock
-                    if math.random(1) == 1 then
+                    if math.random(40) == 1 or (x == (width - 1) and not lock_placed) then
                         lock_or_key_placed = true
 
                         lock_gameobject = GameObject {
@@ -140,7 +140,7 @@ function LevelMaker.generate(width, height)
                 end
                 if not lock_or_key_placed and not key_placed then
                     -- chance of spawning a key
-                    if math.random(1) == 1 then
+                    if math.random(60) == 1 or (x == (width) and not key_placed) then
                         lock_or_key_placed = true
 
                         key_gameobject = GameObject {
