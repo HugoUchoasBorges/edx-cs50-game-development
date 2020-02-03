@@ -115,17 +115,16 @@ function LevelMaker.generate(width, height)
                         lock_gameobject = GameObject {
                             texture = 'keys_and_locks',
                             x = (x - 1) * TILE_SIZE,
-                            y = (6 - 1) * TILE_SIZE,
+                            y = (blockHeight - 1) * TILE_SIZE,
                             width = 16,
                             height = 16,
                             frame = 5 + math.random(4) - 1,
                             collidable = true,
                             hit = false,
                             solid = true,
-                            consumable = true,
 
-                            onConsume = function(player, object)
-                                if key_picked == true then
+                            onCollide = function(obj)
+                                if key_picked == true and not lock_picked then
                                     lock_picked = true
                                     gSounds['pickup']:play()
                                 end
@@ -140,7 +139,7 @@ function LevelMaker.generate(width, height)
                 end
                 if not lock_or_key_placed and not key_placed then
                     -- chance of spawning a key
-                    if math.random(60) == 1 or (x == (width) and not key_placed) then
+                    if math.random(45) == 1 or (x == (width) and not key_placed) then
                         lock_or_key_placed = true
 
                         key_gameobject = GameObject {
@@ -157,8 +156,20 @@ function LevelMaker.generate(width, height)
                             
                             onConsume = function(player, object)
                                 key_picked = true
-                                lock_gameobject.solid = false
                                 gSounds['pickup']:play()
+
+                                table.insert(objects, GameObject {
+                                    texture = 'keys_and_locks',
+                                    x = lock_gameobject.x,
+                                    y = lock_gameobject.y,
+                                    width = 16,
+                                    height = 16,
+                                    frame = key_gameobject.frame,
+                                    collidable = false,
+                                    hit = false,
+                                    solid = false,
+                                    consumable = false,
+                                })
                             end
                         }
 
