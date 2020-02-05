@@ -68,21 +68,7 @@ function LevelMaker.generate(width, height)
                     
                     consumable = true,
                     onConsume = function(player, object)
-                        key_picked = true
-                        gSounds['pickup']:play()
-
-                        table.insert(objects, GameObject {
-                            texture = 'keys_and_locks',
-                            x = lock_gameobject.x,
-                            y = lock_gameobject.y,
-                            width = 16,
-                            height = 16,
-                            frame = key_gameobject.frame,
-                            collidable = false,
-                            hit = false,
-                            solid = false,
-                            consumable = false,
-                        })
+                        gStateMachine:change('start')
                     end
                 })
             end
