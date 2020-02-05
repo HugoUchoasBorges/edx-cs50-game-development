@@ -29,6 +29,8 @@ function LevelMaker.generate(width, height)
     -- whether the lock and key were already spawned
     local lock_placed = false
     local key_placed = false
+    
+    local pole_placed = false
 
     -- whether the lock and key were already picked
     local lock_picked = false
@@ -47,6 +49,56 @@ function LevelMaker.generate(width, height)
         for y = 1, 6 do
             table.insert(tiles[y],
                 Tile(x, y, tileID, nil, tileset, topperset))
+        end
+
+        function spawnPole()
+            pole_placed = true
+            pole_frame = math.random(6)
+
+            for pole_part = 1, 3 do
+                table.insert(objects, GameObject {
+                    texture = 'poles_and_flags',
+                    x = (x - 1) * TILE_SIZE,
+                    y = (3 - 1 + pole_part) * TILE_SIZE,
+                    width = 16,
+                    height = 16,
+                    
+                    -- select random frame from bush_ids whitelist, then random row for variance
+                    frame = pole_frame + (pole_part - 1) * 9,
+                    
+                    consumable = true,
+                    onConsume = function(player, object)
+                        key_picked = true
+                        gSounds['pickup']:play()
+
+                        table.insert(objects, GameObject {
+                            texture = 'keys_and_locks',
+                            x = lock_gameobject.x,
+                            y = lock_gameobject.y,
+                            width = 16,
+                            height = 16,
+                            frame = key_gameobject.frame,
+                            collidable = false,
+                            hit = false,
+                            solid = false,
+                            consumable = false,
+                        })
+                    end
+                })
+            end
+
+            flag_frame = math.random(4)
+
+            table.insert(objects, GameObject {
+                texture = 'poles_and_flags',
+                x = (x - 0.5) * TILE_SIZE,
+                y = (5 - 1.5) * TILE_SIZE,
+                width = 16,
+                height = 16,
+                
+                -- select random frame from bush_ids whitelist, then random row for variance
+                frame = 7 * (flag_frame) + 2 * (flag_frame - 1)
+            })
         end
 
         -- chance to just be emptiness
@@ -127,6 +179,10 @@ function LevelMaker.generate(width, height)
                                 if key_picked == true and not lock_picked then
                                     lock_picked = true
                                     gSounds['pickup']:play()
+
+                                    if not pole_placed then
+                                        spawnPole()
+                                    end
                                 end
                             end
                         }
