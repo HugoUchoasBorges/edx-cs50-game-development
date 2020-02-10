@@ -10,17 +10,23 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.camX = 0
     self.camY = 0
-    self.level = LevelMaker.generate(100, 10)
-    self.tileMap = self.level.tileMap
     self.background = math.random(3)
     self.backgroundX = 0
 
     self.gravityOn = true
     self.gravityAmount = 6
 
+end
+
+function PlayState:enter(params)
+    self.width = params.width
+
+    self.level = LevelMaker.generate(self.width, 10)
+    self.tileMap = self.level.tileMap
+
     -- Player X initial position
     local playerX = 0
-    
+
     -- This loop makes sure the player spawns above solid ground
     while self.level.tileMap:pointToTile(playerX, TILE_SIZE * 7).id == TILE_ID_EMPTY do
         playerX = playerX + TILE_SIZE
@@ -39,6 +45,8 @@ function PlayState:init()
         map = self.tileMap,
         level = self.level
     })
+
+    self.player.score = params.score
 
     self:spawnEnemies()
 

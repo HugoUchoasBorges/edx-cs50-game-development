@@ -68,7 +68,12 @@ function LevelMaker.generate(width, height)
                     
                     consumable = true,
                     onConsume = function(player, object)
-                        gStateMachine:change('start')
+                        -- TODO: increase width and level
+                        params = {
+                            ['width'] = params.width + 50,
+                            ['score'] = player.score,
+                        }
+                        gStateMachine:change('play', params)
                     end
                 })
             end
