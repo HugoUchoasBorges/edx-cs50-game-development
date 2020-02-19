@@ -61,6 +61,9 @@ function PlayerSwingSwordState:update(dt)
         if entity:collides(self.swordHitbox) then
             entity:damage(1)
             gSounds['hit-enemy']:play()
+
+            -- TODO -- Spawn HEART
+
         end
     end
 
