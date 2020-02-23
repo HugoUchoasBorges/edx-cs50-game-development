@@ -64,7 +64,7 @@ function PlayerSwingSwordState:update(dt)
 
             -- Chance of spawning heart
             if math.random(1) == 1  then
-                heart_gameobject = GameObject(
+                local heart_gameobject = GameObject(
                     GAME_OBJECT_DEFS['heart'],
                     math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
                                 VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
