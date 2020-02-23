@@ -25,6 +25,7 @@ GAME_OBJECT_DEFS = {
         }
     },
     ['heart'] = {
+        collected = false,
         type = 'heart',
         texture = 'hearts',
         frame = 5,

@@ -63,14 +63,24 @@ function PlayerSwingSwordState:update(dt)
             gSounds['hit-enemy']:play()
 
             -- Chance of spawning heart
-            if math.random(6) == 1  then
-                table.insert(self.dungeon.currentRoom.objects, GameObject(
+            if math.random(1) == 1  then
+                heart_gameobject = GameObject(
                     GAME_OBJECT_DEFS['heart'],
                     math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
                                 VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
                     math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                                 VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
-                ))
+                )
+
+                heart_gameobject.onCollide = function()
+                    if not heart_gameobject.collected then
+                        heart_gameobject.collected = true
+                        self.player:damage(-2)
+                        gSounds['hit-player']:play()
+                    end
+                end
+
+                table.insert(self.dungeon.currentRoom.objects, heart_gameobject)
             end
 
         end
