@@ -63,7 +63,7 @@ function PlayerSwingSwordState:update(dt)
             gSounds['hit-enemy']:play()
 
             -- Chance of spawning heart
-            if math.random(1) == 1  then
+            if math.random(7) == 1  then
                 local heart_gameobject = GameObject(
                     GAME_OBJECT_DEFS['heart'],
                     math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
