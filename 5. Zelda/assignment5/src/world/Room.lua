@@ -106,9 +106,6 @@ function Room:generateObjects()
     end
 
     -- TODO: Spawn pots
-    -- local texture = gTextures['tiles']
-    -- local quads = gFrames['tiles']
-
     pot_count = math.random(6)
     for i = 1, pot_count do
         table.insert(self.objects, GameObject(
