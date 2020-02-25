@@ -27,4 +27,11 @@ function PlayerIdleState:update(dt)
     if love.keyboard.wasPressed('space') then
         self.entity:changeState('swing-sword')
     end
+
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        -- TODO: Check for pots, then go carryingidle state
+        self.entity:changeState('carrying-idle')
+
+        gSounds['door']:play()
+    end
 end
