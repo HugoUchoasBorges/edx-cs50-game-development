@@ -25,6 +25,8 @@ function PlayerCarryingState:enter(params)
 
     -- restart sword swing animation
     self.entity.currentAnimation:refresh()
+
+    self.object = params.object
 end
 
 function PlayerCarryingState:update(dt)
@@ -49,7 +51,10 @@ function PlayerCarryingState:update(dt)
         self.entity.direction = 'down'
         self.entity:changeAnimation('carrying-down')
     else
-        self.entity:changeState('carrying-idle')
+        params = {
+            ['object'] = self.object
+        }
+        self.entity:changeState('carrying-idle', params)
         self.entity.walkSpeed = PLAYER_WALK_SPEED
     end
 
@@ -58,7 +63,7 @@ function PlayerCarryingState:update(dt)
 
     if not bumped then 
         for k, object in pairs(self.dungeon.currentRoom.objects) do
-            if object.solid and self.entity:collides(object) then 
+            if object.solid and not object.picked and self.entity:collides(object) then
                 self.bumped = true
                 
                 if self.entity.direction == 'left' then            
@@ -161,4 +166,15 @@ function PlayerCarryingState:render()
     -- love.graphics.rectangle('line', self.swordHurtbox.x, self.swordHurtbox.y,
     --     self.swordHurtbox.width, self.swordHurtbox.height)
     -- love.graphics.setColor(255, 255, 255, 255)
+end
+
+function PlayerCarryingState:render()
+    EntityIdleState.render(self)
+
+    if self.object then
+        local adjacentOffsetX = -1
+        local adjacentOffsetY = -8
+        love.graphics.draw(gTextures[self.object.texture], gFrames[self.object.texture][self.object.states[self.object.state].frame or self.object.frame],
+            self.entity.x + adjacentOffsetX, self.entity.y + adjacentOffsetY)
+    end
 end

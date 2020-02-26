@@ -40,7 +40,7 @@ function GameObject:update(dt)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-    if not self.collected then
+    if not self.collected and not self.picked then
         love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
             self.x + adjacentOffsetX, self.y + adjacentOffsetY)
     end

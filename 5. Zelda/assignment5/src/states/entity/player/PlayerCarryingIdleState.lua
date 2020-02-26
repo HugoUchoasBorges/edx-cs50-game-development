@@ -22,6 +22,9 @@ function PlayerCarryingIdleState:enter(params)
     -- render offset for spaced character sprite
     self.entity.offsetY = 5
     self.entity.offsetX = 0
+
+    self.object = params.object
+    self.object.picked = true
 end
 
 function PlayerCarryingIdleState:update(dt)
@@ -31,7 +34,10 @@ end
 function PlayerCarryingIdleState:update(dt)
     if love.keyboard.isDown('left') or love.keyboard.isDown('right') or
        love.keyboard.isDown('up') or love.keyboard.isDown('down') then
-        self.entity:changeState('carrying')
+        params = {
+            ['object'] = self.object
+        }
+        self.entity:changeState('carrying', params)
     end
 
     if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
@@ -39,5 +45,16 @@ function PlayerCarryingIdleState:update(dt)
         self.entity:changeState('idle')
         --self.entity:changeState('player-throwing')
         self.entity.walkSpeed = PLAYER_WALK_SPEED
+    end
+end
+
+function PlayerCarryingIdleState:render()
+    EntityIdleState.render(self)
+
+    if self.object then
+        local adjacentOffsetX = -1
+        local adjacentOffsetY = -8
+        love.graphics.draw(gTextures[self.object.texture], gFrames[self.object.texture][self.object.states[self.object.state].frame or self.object.frame],
+            self.entity.x + adjacentOffsetX, self.entity.y + adjacentOffsetY)
     end
 end
