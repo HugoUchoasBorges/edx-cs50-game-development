@@ -31,12 +31,35 @@ function GameObject:init(def, x, y)
     self.width = def.width
     self.height = def.height
 
+    self.dx = 0
+    self.dy = 0
+
     -- default empty collision callback
     self.onCollide = function() end
 end
 
 function GameObject:update(dt)
+    if self.dx then 
+        self.x = self.x + self.dx * dt
+    end
 
+    if self.dy then 
+        self.y = self.y + self.dy * dt
+    end
+
+    -- TODO: Destroy object after
+        -- Hit an enemy (damage)
+        -- Hit an wall
+        -- Slide for 4 TILESIZEs
+end
+
+function GameObject:fire(x, y, dx, dy)
+    -- Throws the gameobject as a projectile
+    self.picked = false
+    self.x = x
+    self.y = y
+    self.dx = dx
+    self.dy = dy
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)

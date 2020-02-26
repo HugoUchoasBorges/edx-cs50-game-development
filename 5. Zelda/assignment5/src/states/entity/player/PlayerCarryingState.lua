@@ -32,9 +32,10 @@ end
 function PlayerCarryingState:update(dt)
 
     if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
-        -- TODO: New State - Throwing
-        self.entity:changeState('idle')
-        --self.entity:changeState('player-throwing')
+        params = {
+            ['object'] = self.object
+        }
+        self.entity:changeState('throwing', params)
         self.entity.walkSpeed = PLAYER_WALK_SPEED
     end
 
