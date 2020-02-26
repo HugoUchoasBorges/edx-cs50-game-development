@@ -105,7 +105,6 @@ function Room:generateObjects()
         end
     end
 
-    -- TODO: Spawn pots
     pot_count = math.random(6)
     for i = 1, pot_count do
         table.insert(self.objects, GameObject(

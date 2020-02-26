@@ -15,6 +15,10 @@ function PlayerWalkState:init(player, dungeon)
     -- render offset for spaced character sprite
     self.entity.offsetY = 5
     self.entity.offsetX = 0
+
+    self.object_bumped = false
+    self.object_bumped_direction = ''
+    self.entity.grabbable_object = nil
 end
 
 function PlayerWalkState:update(dt)
@@ -38,46 +42,51 @@ function PlayerWalkState:update(dt)
         self.entity:changeState('swing-sword')
     end
 
-    local grab = false
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        grab = true
-    end
-
     -- perform base collision detection against walls
     EntityWalkState.update(self, dt)
 
-    -- TODO: Add collision to Solid Objects
-    if not bumped then 
-        for k, object in pairs(self.dungeon.currentRoom.objects) do
-            if object.solid and self.entity:collides(object) then 
-                self.bumped = true
-                if object.type == 'pot' then 
-                    if grab then 
-                        gSounds['door']:play()
-                        self.entity:changeState('carrying')
-                    end
-                end
-                if self.entity.direction == 'left' then            
-                    self.entity.x = self.entity.x + PLAYER_WALK_SPEED * dt
-                elseif self.entity.direction == 'right' then
-            
-                    -- temporarily adjust position
-                    self.entity.x = self.entity.x - PLAYER_WALK_SPEED * dt
-                elseif self.entity.direction == 'up' then
-            
-                    -- temporarily adjust position
-                    self.entity.y = self.entity.y + PLAYER_WALK_SPEED * dt
-                else
-            
-                    -- temporarily adjust position
-                    self.entity.y = self.entity.y - PLAYER_WALK_SPEED * dt
-                end
+    for k, object in pairs(self.dungeon.currentRoom.objects) do
+        if object.solid and self.entity:collides(object) then 
+            self.bumped = true
+
+            self.object_bumped = true
+            self.object_bumped_direction = self.entity.direction
+            if object.grabbable then 
+                self.entity.grabbable_object = object
+            end
+
+            if self.entity.direction == 'left' then            
+                self.entity.x = self.entity.x + PLAYER_WALK_SPEED * dt
+            elseif self.entity.direction == 'right' then
+        
+                -- temporarily adjust position
+                self.entity.x = self.entity.x - PLAYER_WALK_SPEED * dt
+            elseif self.entity.direction == 'up' then
+        
+                -- temporarily adjust position
+                self.entity.y = self.entity.y + PLAYER_WALK_SPEED * dt
+            else
+        
+                -- temporarily adjust position
+                self.entity.y = self.entity.y - PLAYER_WALK_SPEED * dt
             end
         end
     end
 
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
+        if self.entity.grabbable_object then 
+            self.entity:changeState('carrying-idle')
+        end
+    end
+
+    if self.object_bumped and self.object_bumped_direction ~= self.entity.direction then 
+        self.object_bumped = false
+        self.entity.grabbable_object = nil
+    end
+
     -- if we bumped something when checking collision, check any object collisions
     if self.bumped then
+
         if self.entity.direction == 'left' then
             
             -- temporarily adjust position

@@ -29,9 +29,9 @@ end
 
 function PlayerCarryingState:update(dt)
 
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
         -- TODO: New State - Throwing
-        self.entity:changeState('carrying-idle')
+        self.entity:changeState('idle')
         --self.entity:changeState('player-throwing')
         self.entity.walkSpeed = PLAYER_WALK_SPEED
     end
@@ -49,7 +49,6 @@ function PlayerCarryingState:update(dt)
         self.entity.direction = 'down'
         self.entity:changeAnimation('carrying-down')
     else
-        -- TODO: New State - Idle Carrying
         self.entity:changeState('carrying-idle')
         self.entity.walkSpeed = PLAYER_WALK_SPEED
     end
@@ -57,7 +56,6 @@ function PlayerCarryingState:update(dt)
     -- perform base collision detection against walls
     EntityWalkState.update(self, dt)
 
-    -- TODO: Add collision to Solid Objects
     if not bumped then 
         for k, object in pairs(self.dungeon.currentRoom.objects) do
             if object.solid and self.entity:collides(object) then 

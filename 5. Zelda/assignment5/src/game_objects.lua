@@ -41,6 +41,7 @@ GAME_OBJECT_DEFS = {
     },
     ['pot'] = {
         picked = false,
+        grabbable = true,
         type = 'pot',
         texture = 'tiles',
         width = 16,

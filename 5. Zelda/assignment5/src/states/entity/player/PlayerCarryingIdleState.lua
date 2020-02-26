@@ -34,10 +34,10 @@ function PlayerCarryingIdleState:update(dt)
         self.entity:changeState('carrying')
     end
 
-    if love.keyboard.wasPressed('space') then
+    if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
         -- TODO: New State - Throwing
         self.entity:changeState('idle')
-        gSounds['door']:play()
-        --self.entity:changeState('throwing')
+        --self.entity:changeState('player-throwing')
+        self.entity.walkSpeed = PLAYER_WALK_SPEED
     end
 end

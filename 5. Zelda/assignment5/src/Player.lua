@@ -10,6 +10,9 @@ Player = Class{__includes = Entity}
 
 function Player:init(def)
     Entity.init(self, def)
+
+    -- If a grabbable object is in front of the player
+    self.grabbable_object = false
 end
 
 function Player:update(dt)
