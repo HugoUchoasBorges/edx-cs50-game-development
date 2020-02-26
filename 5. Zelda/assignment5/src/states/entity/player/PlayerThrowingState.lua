@@ -23,18 +23,8 @@ function PlayerThrowingState:enter(params)
     self.object = params.object
     local dx = 0
     local dy = 0
-
-    if self.entity.direction == 'left' then            
-        dx = -1
-    elseif self.entity.direction == 'right' then
-        dx = 1
-    elseif self.entity.direction == 'up' then
-        dy = -1
-    else
-        dy = 1
-    end
     
-    self.object:fire(self.entity.x + self.entity.offsetX, self.entity.y + self.entity.offsetY, PLAYER_THROWING_SPEED * dx, PLAYER_THROWING_SPEED * dy)
+    self.object:fire(self.entity.x + self.entity.offsetX, self.entity.y + self.entity.offsetY, self.entity.direction)
 end
 
 function PlayerThrowingState:update(dt)

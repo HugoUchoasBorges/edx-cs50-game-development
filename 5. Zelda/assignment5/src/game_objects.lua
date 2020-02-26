@@ -40,6 +40,7 @@ GAME_OBJECT_DEFS = {
         }
     },
     ['pot'] = {
+        breaked = false,
         picked = false,
         grabbable = true,
         type = 'pot',
