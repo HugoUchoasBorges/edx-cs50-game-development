@@ -46,7 +46,7 @@ function PlayerWalkState:update(dt)
     EntityWalkState.update(self, dt)
 
     for k, object in pairs(self.dungeon.currentRoom.objects) do
-        if object.solid and not object.picked and self.entity:collides(object) then 
+        if object.solid and not object.picked and not object.breaked and self.entity:collides(object) then 
             self.bumped = true
 
             self.object_bumped = true
@@ -74,10 +74,11 @@ function PlayerWalkState:update(dt)
     end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
-        if self.entity.grabbable_object then 
+        if self.entity.grabbable_object and not self.entity.grabbable_object.breaked then 
             params = {
                 ['object'] = self.entity.grabbable_object
             }
+            self.entity.grabbable_object = nil
             self.entity:changeState('carrying-idle', params)
         end
     end

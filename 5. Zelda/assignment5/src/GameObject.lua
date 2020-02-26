@@ -21,7 +21,11 @@ function GameObject:init(def, x, y)
     -- whether the object can be grabble
     self.grabbable = def.grabbable
     self.breaked = def.breaked
+
+    -- Throwing variables
     self.direction = ''
+    self.initial_x = 0
+    self.initial_y = 0
 
     self.defaultState = def.defaultState
     self.state = self.defaultState
@@ -41,14 +45,18 @@ function GameObject:init(def, x, y)
 end
 
 function GameObject:update(dt)
-    if not self.breaked and self.dx or self.dy then 
+    if not self.breaked and (self.dx ~= 0 or self.dy ~= 0) then 
         self.x = self.x + self.dx * dt
         self.y = self.y + self.dy * dt
+
+        if math.abs( self.x - self.initial_x ) + math.abs( self.y - self.initial_y ) >= 4 * TILE_SIZE then 
+            self.breaked=true
+        end
 
         -- Collision with Walls
 
         local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
-        
+
         if self.x <= MAP_RENDER_OFFSET_X + TILE_SIZE or 
         self.x + self.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 or 
         self.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.height / 2 or 
@@ -66,6 +74,9 @@ end
 
 function GameObject:fire(x, y, direction)
     -- Throws the gameobject as a projectile
+    self.initial_x = x
+    self.initial_y = y
+
     dx = 0
     dy = 0
     if direction == 'left' then            

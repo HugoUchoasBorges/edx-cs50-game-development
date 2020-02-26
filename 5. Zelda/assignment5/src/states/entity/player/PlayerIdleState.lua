@@ -29,10 +29,11 @@ function PlayerIdleState:update(dt)
     end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
-        if self.entity.grabbable_object then 
+        if self.entity.grabbable_object and not self.entity.grabbable_object.breaked then 
             params = {
                 ['object'] = self.entity.grabbable_object
             }
+            self.entity.grabbable_object = nil
             self.entity:changeState('carrying-idle', params)
         end
     end

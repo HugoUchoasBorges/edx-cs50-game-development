@@ -64,7 +64,7 @@ function PlayerCarryingState:update(dt)
 
     if not bumped then 
         for k, object in pairs(self.dungeon.currentRoom.objects) do
-            if object.solid and not object.picked and self.entity:collides(object) then
+            if object.solid and not object.picked and not object.breaked and self.entity:collides(object) then
                 self.bumped = true
                 
                 if self.entity.direction == 'left' then            
