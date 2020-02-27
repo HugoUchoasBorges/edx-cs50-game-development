@@ -21,10 +21,11 @@ function PlayerThrowingState:enter(params)
     self.entity.offsetX = 0
 
     self.object = params.object
+    self.dungeon = params.dungeon
     local dx = 0
     local dy = 0
     
-    self.object:fire(self.entity.x + self.entity.offsetX, self.entity.y + self.entity.offsetY, self.entity.direction)
+    self.object:fire(self.entity.x + self.entity.offsetX, self.entity.y + self.entity.offsetY, self.entity.direction, self.dungeon)
 end
 
 function PlayerThrowingState:update(dt)

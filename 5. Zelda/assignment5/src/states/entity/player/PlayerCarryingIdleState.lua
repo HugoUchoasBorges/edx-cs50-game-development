@@ -8,8 +8,9 @@
 
 PlayerCarryingIdleState = Class{__includes = EntityIdleState}
 
-function PlayerCarryingIdleState:init(entity)
+function PlayerCarryingIdleState:init(entity, dungeon)
     self.entity = entity
+    self.dungeon = dungeon
 
     self.entity:changeAnimation('carrying-idle-' .. self.entity.direction)
 
@@ -42,7 +43,8 @@ function PlayerCarryingIdleState:update(dt)
 
     if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
         params = {
-            ['object'] = self.object
+            ['object'] = self.object,
+            ['dungeon'] = self.dungeon
         }
         self.entity:changeState('throwing', params)
         self.entity.walkSpeed = PLAYER_WALK_SPEED

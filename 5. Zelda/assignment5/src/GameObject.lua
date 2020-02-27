@@ -26,6 +26,7 @@ function GameObject:init(def, x, y)
     self.direction = ''
     self.initial_x = 0
     self.initial_y = 0
+    self.currentEntities = false
 
     self.defaultState = def.defaultState
     self.state = self.defaultState
@@ -64,6 +65,15 @@ function GameObject:update(dt)
             self.x = MAP_RENDER_OFFSET_X + TILE_SIZE
             self.breaked = true
         end
+
+        for k, entity in pairs(self.currentEntities) do 
+            if not entity.dead and entity:collides(self) then 
+                entity:damage(1)
+                gSounds['hit-enemy']:play()
+
+                self.breaked = true
+            end
+        end
     end
 
     -- TODO: Destroy object after
@@ -72,7 +82,7 @@ function GameObject:update(dt)
         -- Slide for 4 TILESIZEs
 end
 
-function GameObject:fire(x, y, direction)
+function GameObject:fire(x, y, direction, dungeon)
     -- Throws the gameobject as a projectile
     self.initial_x = x
     self.initial_y = y
@@ -95,6 +105,8 @@ function GameObject:fire(x, y, direction)
     self.y = y
     self.dx = dx * PLAYER_THROWING_SPEED
     self.dy = dy * PLAYER_THROWING_SPEED
+
+    self.currentEntities = dungeon.currentRoom.entities
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
