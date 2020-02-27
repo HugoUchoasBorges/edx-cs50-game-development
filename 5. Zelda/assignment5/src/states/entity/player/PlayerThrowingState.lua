@@ -8,8 +8,9 @@
 
 PlayerThrowingState = Class{__includes = EntityIdleState}
 
-function PlayerThrowingState:init(entity)
+function PlayerThrowingState:init(entity, dungeon)
     self.entity = entity
+    self.dungeon = dungeon
 
     self.entity:changeAnimation('idle-' .. self.entity.direction)
 end
@@ -21,7 +22,6 @@ function PlayerThrowingState:enter(params)
     self.entity.offsetX = 0
 
     self.object = params.object
-    self.dungeon = params.dungeon
     local dx = 0
     local dy = 0
     

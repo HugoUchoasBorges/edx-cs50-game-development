@@ -76,8 +76,7 @@ function PlayerWalkState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
         if self.entity.grabbable_object and not self.entity.grabbable_object.breaked then 
             params = {
-                ['object'] = self.entity.grabbable_object,
-                ['dungeon'] = self.dungeon
+                ['object'] = self.entity.grabbable_object
             }
             self.entity:changeState('carrying-idle', params)
             self.entity.grabbable_object = nil

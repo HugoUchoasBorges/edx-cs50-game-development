@@ -43,8 +43,7 @@ function PlayerCarryingIdleState:update(dt)
 
     if love.keyboard.wasPressed('space') or love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') or love.keyboard.wasPressed('f') then
         params = {
-            ['object'] = self.object,
-            ['dungeon'] = self.dungeon
+            ['object'] = self.object
         }
         self.entity:changeState('throwing', params)
         self.entity.walkSpeed = PLAYER_WALK_SPEED
