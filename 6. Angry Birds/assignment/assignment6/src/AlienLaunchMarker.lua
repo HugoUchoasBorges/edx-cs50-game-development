@@ -28,8 +28,17 @@ function AlienLaunchMarker:init(world)
     -- whether we launched the alien and should stop rendering the preview
     self.launched = false
 
+    -- whether the alien hit something
+    self.hit = false
+
+    -- whether the alien has split (shouldn't do it several times in the same launch)
+    self.split = false
+
     -- our alien we will eventually spawn
     self.alien = nil
+
+    -- Additional Aliens for the slit ability
+    self.additionalAliens = {}
 end
 
 function AlienLaunchMarker:update(dt)
@@ -107,5 +116,8 @@ function AlienLaunchMarker:render()
         love.graphics.setColor(255, 255, 255, 255)
     else
         self.alien:render()
+        for k, v in pairs(self.additionalAliens) do
+            v:render()
+        end
     end
 end

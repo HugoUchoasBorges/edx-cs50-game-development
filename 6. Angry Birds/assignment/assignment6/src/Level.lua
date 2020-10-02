@@ -24,6 +24,11 @@ function Level:init()
         types[a:getUserData()] = true
         types[b:getUserData()] = true
 
+        if types['Player'] then
+            -- Set the hit flag at 
+            self.launchMarker.hit = true
+        end
+
         -- if we collided between both an alien and an obstacle...
         if types['Obstacle'] and types['Player'] then
 
@@ -187,9 +192,46 @@ function Level:update(dt)
         local xPos, yPos = self.launchMarker.alien.body:getPosition()
         local xVel, yVel = self.launchMarker.alien.body:getLinearVelocity()
         
+        -- Here is possible to activate the split alien power
+        if not self.launchMarker.hit then
+            if love.keyboard.wasPressed('space') and not self.launchMarker.split then
+                self.launchMarker.split = true
+                
+                -- spawn new alien in the world, passing in user data of player
+                -- alien = Alien(self.launchMarker.world, 'round', self.launchMarker.shiftedX, self.launchMarker.shiftedY, 'Player')
+                local originalX, originalY = self.launchMarker.alien.body:getPosition()
+                local originalVelocityX, originalVelocityY = self.launchMarker.alien.body:getLinearVelocity()
+
+                local alienTop = Alien(self.launchMarker.world, 'round', originalX + 10, originalY - 30, 'Player')
+                alienTop.body:setLinearVelocity(originalVelocityX + 40, originalVelocityY - 60)
+                table.insert(self.launchMarker.additionalAliens, alienTop)
+
+                local alienBottom = Alien(self.launchMarker.world, 'round', originalX + 10, originalY + 30, 'Player')
+                alienBottom.body:setLinearVelocity(originalVelocityX + 40, originalVelocityY + 60)
+                table.insert(self.launchMarker.additionalAliens, alienBottom)
+
+
+                for k, alien in pairs(self.launchMarker.additionalAliens) do
+                    -- make the alien pretty bouncy
+                    alien.fixture:setRestitution(0.4)
+                    alien.body:setAngularDamping(1)
+                end
+            end
+        end
+
         -- if we fired our alien to the left or it's almost done rolling, respawn
         if xPos < 0 or (math.abs(xVel) + math.abs(yVel) < 1.5) then
+            for k,v in pairs(self.launchMarker.additionalAliens) do
+                local xAddPos, yAddPos = v.body:getPosition()
+                local xAddVel, yAddVel = v.body:getLinearVelocity()
+                if not(xAddPos < 0 or (math.abs(xAddVel) + math.abs(yAddVel) < 1.5)) then
+                    return
+                end
+            end
             self.launchMarker.alien.body:destroy()
+            for k,v in pairs(self.launchMarker.additionalAliens) do
+                v.body:destroy()
+            end
             self.launchMarker = AlienLaunchMarker(self.world)
 
             -- re-initialize level if we have no more aliens
