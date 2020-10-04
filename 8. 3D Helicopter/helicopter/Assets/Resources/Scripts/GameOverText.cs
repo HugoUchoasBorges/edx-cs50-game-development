@@ -20,7 +20,7 @@ public class GameOverText : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (helicopter != null) {
-			coins = helicopter.GetComponent<HeliController>().coinTotal;
+			coins = helicopter.GetComponent<HeliController>().collectableTotal;
 		}
 		else {
 

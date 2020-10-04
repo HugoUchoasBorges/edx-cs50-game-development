@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 219926774}
   - component: {fileID: 219926773}
   m_Layer: 0
-  m_Name: CoinSpawner
+  m_Name: CollectableSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,8 +296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05fd3c03acabdb9499cbfb87f9de8f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 1000011281862712, guid: ee4a50b2d53520f4ba6f4a153747053c, type: 3}
+  spawnables:
+  - prefab: {fileID: 1000011281862712, guid: ee4a50b2d53520f4ba6f4a153747053c, type: 3}
+    spawnPriority: 3
+  - prefab: {fileID: 1000011281862712, guid: 44ce13d7909db3d4d820e3df117c160c, type: 3}
+    spawnPriority: 1
 --- !u!4 &219926774
 Transform:
   m_ObjectHideFlags: 0

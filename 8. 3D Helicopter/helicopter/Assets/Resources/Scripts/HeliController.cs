@@ -4,7 +4,7 @@ using System.Collections;
 public class HeliController : MonoBehaviour {
 
 	public float speed = 10.0f;
-	public int coinTotal = 0;
+	public int collectableTotal = 0;
 	private Rigidbody rb;
 	private float vertical, horizontal;
 	public ParticleSystem explosion;
@@ -53,8 +53,8 @@ public class HeliController : MonoBehaviour {
 		rb.velocity = new Vector3(horizontal, vertical, 0);
 	}
 
-	public void PickupCoin() {
-		coinTotal += 1;
+	public void PickupCoin(int coinValue) {
+		collectableTotal += coinValue;
 
 		// trigger audio playback and emit particles from particle system
 		GetComponents<AudioSource>()[0].Play();
