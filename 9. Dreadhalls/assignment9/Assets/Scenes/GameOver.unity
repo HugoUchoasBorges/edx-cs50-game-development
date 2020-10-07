@@ -569,8 +569,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: 43}
-  m_SizeDelta: {x: 402.6, y: 142.8}
+  m_AnchoredPosition: {x: -0, y: 43}
+  m_SizeDelta: {x: 660.7, y: 142.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1565166793
 MonoBehaviour:
@@ -603,7 +603,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Dread50
+  m_Text: GAMEOVER
 --- !u!222 &1565166794
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -702,4 +702,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501015dae5a074d10b3fbc36de961106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: Play
+  sceneToLoad: Title
