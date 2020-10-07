@@ -179,7 +179,7 @@ MonoBehaviour:
   characterController: {fileID: 1286802624}
   floorParent: {fileID: 328187320}
   wallsParent: {fileID: 1229837569}
-  generateRoof: 0
+  generateRoof: 1
   minFloorToDestroy: 1
   maxFloorToDestroy: 4
   tilesToRemove: 350
