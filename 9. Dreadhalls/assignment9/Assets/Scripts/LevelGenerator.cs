@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
@@ -16,8 +17,12 @@ public class LevelGenerator : MonoBehaviour {
 	// allows us to see the maze generation from the scene view
 	public bool generateRoof = true;
 
-	// number of times we want to "dig" in our maze
-	public int tilesToRemove = 50;
+    // Range 
+    [SerializeField] [Range(0, 4)] private int minFloorToDestroy = 1;
+    [SerializeField] [Range(4, 50)] private int maxFloorToDestroy = 4;
+
+    // number of times we want to "dig" in our maze
+    public int tilesToRemove = 50;
 
 	public int mazeSize;
 
@@ -33,15 +38,24 @@ public class LevelGenerator : MonoBehaviour {
 	// we use these to dig through our maze and to spawn the pickup at the end
 	private int mazeX = 4, mazeY = 1;
 
+	// List to keep all floor items that can be destroyed
+	private List<GameObject> destroyableItems;
+
 	// Use this for initialization
 	void Start () {
 
 		// initialize map 2D array
 		mapData = GenerateMazeData();
 
+		destroyableItems = new List<GameObject>();
+
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSize; z++) {
 			for (int x = 0; x < mazeSize; x++) {
+
+				// create floor and ceiling
+				GameObject newFloor = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+
 				if (mapData[z, x]) {
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
 					CreateChildPrefab(wallPrefab, wallsParent, x, 2, z);
@@ -56,9 +70,14 @@ public class LevelGenerator : MonoBehaviour {
 					// flag as placed so we never consider placing again
 					characterPlaced = true;
 				}
+				else
+				{
+					// Adds the new instantiated floor to a list of destroyable Items (it isn't under a Wall and the player isn't on top of it)
+					destroyableItems.Add(newFloor);
+				}
 
-				// create floor and ceiling
-				CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+				if (!mapData[z, x] && !characterPlaced)
+					destroyableItems.Add(newFloor);
 
 				if (generateRoof) {
 					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
@@ -66,9 +85,47 @@ public class LevelGenerator : MonoBehaviour {
 			}
 		}
 
+        // ASSIGNMENT -- Destroy some floorPrefabs
+        int[] floorIdxToRemove = new int[(int)(Random.Range(minFloorToDestroy, maxFloorToDestroy + 1))];
+
+        for (int i = 0; i < floorIdxToRemove.Length; i++)
+		{
+			int selected = (int)Random.Range(0, destroyableItems.Count - 1);
+
+			// Ensure that won't try to destroy the same gameObject twice
+			while (floorIdxToRemove.Contains(selected))
+				selected = (int)Random.Range(0, destroyableItems.Count - 1);
+
+			floorIdxToRemove[i] = selected;
+		}
+
+		DestroyFloorItems(floorIdxToRemove);
+
 		// spawn the pickup at the end
 		var myPickup = Instantiate(pickup, new Vector3(mazeX, 1, mazeY), Quaternion.identity);
 		myPickup.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+	}
+
+	/// <summary>
+	/// Destroys some Floor GameObjects from destroyableItems list
+	/// </summary>
+	/// <param name="indexes">Vector indexes to destroy</param>
+	private void DestroyFloorItems(int[] indexes)
+	{
+		List<GameObject> listToDestroy = new List<GameObject>();
+		// Get all gameObjects to destroy and keep them in a list
+		foreach (int index in indexes)
+		{
+			if (destroyableItems.Count <= index)
+				continue;
+			listToDestroy.Add(destroyableItems[index]);
+		}
+
+		// Destroy all selected gameObjects
+		foreach (var item in listToDestroy)
+		{
+			Destroy(item);
+		}
 	}
 
 	// generates the booleans determining the maze, which will be used to construct the cubes
@@ -120,8 +177,9 @@ public class LevelGenerator : MonoBehaviour {
 	// allow us to instantiate something and immediately make it the child of this game object's
 	// transform, so we can containerize everything. also allows us to avoid writing Quaternion.
 	// identity all over the place, since we never spawn anything with rotation
-	void CreateChildPrefab(GameObject prefab, GameObject parent, int x, int y, int z) {
+	GameObject CreateChildPrefab(GameObject prefab, GameObject parent, int x, int y, int z) {
 		var myPrefab = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
 		myPrefab.transform.parent = parent.transform;
+		return myPrefab;
 	}
 }
