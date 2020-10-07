@@ -15,6 +15,7 @@ public class GrabPickups : MonoBehaviour {
 		if (hit.gameObject.tag == "Pickup") {
 			pickupSoundSource.Play();
 			SceneManager.LoadScene("Play");
+			MazeCount.CurrentMaze++;
 		}
 	}
 }

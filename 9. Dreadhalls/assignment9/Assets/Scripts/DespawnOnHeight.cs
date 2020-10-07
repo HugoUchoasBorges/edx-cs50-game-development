@@ -27,6 +27,7 @@ public class DespawnOnHeight : MonoBehaviour
     {
         Debug.Log("GAME OVER");
         Destroy(GameObject.Find("WhisperSource"));
+        MazeCount.CurrentMaze = 1;
         SceneManager.LoadScene("GameOver");
     }
 }
