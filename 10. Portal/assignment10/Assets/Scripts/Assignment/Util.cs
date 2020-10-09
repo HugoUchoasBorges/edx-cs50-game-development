@@ -2,11 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Util
+namespace assignment
 {
-    public static IEnumerator HideTextDelay(Text text, float delay)
+    public class Util
     {
-        yield return new WaitForSeconds(delay);
-        text.enabled = false;
+        public static IEnumerator HideTextDelay(Text text, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            text.enabled = false;
+        }
     }
 }

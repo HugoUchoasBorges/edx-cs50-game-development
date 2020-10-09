@@ -3,27 +3,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class RespawnBehavior : MonoBehaviour
+namespace assignment
 {
-    [SerializeField] private Transform respawnPosition;
-    [SerializeField] private Text respawnText;
-    [SerializeField] [Range(0f, 3f)] private float respawnScreenTime = 1;
-    [SerializeField] [Range(-100f, -1.5f)] private float respawnHeight = -15;
-
-    private void Awake()
+    public class RespawnBehavior : MonoBehaviour
     {
-        if (respawnText.isActiveAndEnabled)
-            respawnText.enabled = false;
-    }
+        [SerializeField] private Transform respawnPosition;
+        [SerializeField] private Text respawnText;
+        [SerializeField] [Range(0f, 3f)] private float respawnScreenTime = 1;
+        [SerializeField] [Range(-100f, -1.5f)] private float respawnHeight = -15;
 
-    private void Update()
-    {
-        if (transform.position.y < respawnHeight)
+        private void Awake()
         {
-            respawnText.enabled = true;
-            transform.SetPositionAndRotation(respawnPosition.position, respawnPosition.rotation);
-            gameObject.GetComponent<FirstPersonController>().MouseReset();
-            StartCoroutine(Util.HideTextDelay(respawnText, respawnScreenTime));
+            if (respawnText.isActiveAndEnabled)
+                respawnText.enabled = false;
+        }
+
+        private void Update()
+        {
+            if (transform.position.y < respawnHeight)
+            {
+                respawnText.enabled = true;
+                transform.SetPositionAndRotation(respawnPosition.position, respawnPosition.rotation);
+                gameObject.GetComponent<FirstPersonController>().MouseReset();
+                StartCoroutine(Util.HideTextDelay(respawnText, respawnScreenTime));
+            }
         }
     }
 }

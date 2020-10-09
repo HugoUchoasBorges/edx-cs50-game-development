@@ -1,26 +1,28 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class FinishLevelTrigger : MonoBehaviour
+namespace assignment
 {
-    [SerializeField] private Text finishText;
-    [SerializeField] [Range(0f, 10f)] private float finishScreenTime = 3;
-
-    private const string PLAYER_TAG = "Player";
-
-    private void Awake()
+    public class FinishLevelTrigger : MonoBehaviour
     {
-        if (finishText.isActiveAndEnabled)
-            finishText.enabled = false;
-    }
+        [SerializeField] private Text finishText;
+        [SerializeField] [Range(0f, 10f)] private float finishScreenTime = 3;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == PLAYER_TAG)
+        private const string PLAYER_TAG = "Player";
+
+        private void Awake()
         {
-            finishText.enabled = true;
-            StartCoroutine(Util.HideTextDelay(finishText, finishScreenTime));
+            if (finishText.isActiveAndEnabled)
+                finishText.enabled = false;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == PLAYER_TAG)
+            {
+                finishText.enabled = true;
+                StartCoroutine(Util.HideTextDelay(finishText, finishScreenTime));
+            }
         }
     }
 }
