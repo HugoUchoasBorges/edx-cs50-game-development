@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class RespawnBehavior : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class RespawnBehavior : MonoBehaviour
         if (transform.position.y < respawnHeight)
         {
             respawnText.enabled = true;
-            transform.position = respawnPosition.position;
+            transform.SetPositionAndRotation(respawnPosition.position, respawnPosition.rotation);
+            gameObject.GetComponent<FirstPersonController>().MouseReset();
             StartCoroutine(Util.HideTextDelay(respawnText, respawnScreenTime));
         }
     }
