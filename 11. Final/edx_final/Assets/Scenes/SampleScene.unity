@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputEnabled: 0
-  _speed: 3
+  _speed: 5
   _deadZone: 0.3
 --- !u!114 &270783386
 MonoBehaviour:

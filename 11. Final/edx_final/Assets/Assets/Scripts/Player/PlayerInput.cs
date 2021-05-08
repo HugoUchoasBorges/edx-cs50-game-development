@@ -38,7 +38,7 @@ namespace player
             _axisInput = new Vector2(Input.GetAxis(HoriInputName), Input.GetAxis(VertInputName));
             if (_axisInput.magnitude > _deadZone)
             {
-                _rigidbody2D.velocity = _axisInput * _speed;
+                _rigidbody2D.velocity = Vector2.ClampMagnitude(_axisInput, 1) * _speed;
             }
             else
             {
