@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 270783387}
   - component: {fileID: 270783386}
   - component: {fileID: 270783385}
+  - component: {fileID: 270783388}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -180,7 +181,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 1114265845128736309, guid: fd86b731f5e20254b867adc6f893ef10,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -220,13 +222,6 @@ MonoBehaviour:
   _inputEnabled: 0
   _speed: 3
   _deadZone: 0.3
-  _bordersEnabled: 0
-  _borders:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!114 &270783386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 270783385}
+  _screenBoundariesBehavior: {fileID: 270783388}
+  _spriteRenderer: {fileID: 270783383}
 --- !u!50 &270783387
 Rigidbody2D:
   serializedVersion: 4
@@ -261,6 +258,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &270783388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270783382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68024c7a804399740bd18610be0a1bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bordersEnabled: 0
+  _borders:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
