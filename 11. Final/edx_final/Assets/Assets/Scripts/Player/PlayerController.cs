@@ -8,9 +8,14 @@ namespace player
     [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private ScreenBoundariesBehavior _screenBoundariesBehavior;
+        
+        [Header("Components")]
         [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        [Header("Input & Behaviors")]
+        [SerializeField] private PlayerInput _playerInput;
+        [SerializeField] private PlayerMovementBehavior _playerMovement;
+        [SerializeField] private ScreenBoundariesBehavior _screenBoundariesBehavior;
 
 
         // ========================== Components ============================
@@ -25,17 +30,22 @@ namespace player
         // ========================== Init ============================
 
 
-        private void Start()
+        private void OnEnable()
         {
             InitPlayer();
         }
 
+        private void OnDisable()
+        {
+            _playerInput.OnMove -= _playerMovement.Move;
+        }
+
         private void InitPlayer()
         {
+            // Screen bounds
             Vector2 _screenBorders = _camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, _camera.transform.position.z));
             Vector3 playerSize = _spriteRenderer.bounds.size;
 
-            _playerInput.EnableInput(true);
             _screenBoundariesBehavior.SetBorders(
                 new Rect(
                     0, // x
@@ -45,6 +55,12 @@ namespace player
                     ), 
                 playerSize
                 );
+
+            // Player Input
+            _playerInput.EnableInput(true);
+
+            // Player Movement
+            _playerInput.OnMove += _playerMovement.Move;
         }
     }
 }
