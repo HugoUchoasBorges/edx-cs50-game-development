@@ -1,4 +1,5 @@
 ﻿using behaviors;
+using player.shooting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace player
         [Header("Input & Behaviors")]
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private PlayerMovementBehavior _playerMovement;
+        [SerializeField] private ShootingManager _playerShootingManager;
         [SerializeField] private ScreenBoundariesBehavior _screenBoundariesBehavior;
 
 
@@ -32,12 +34,21 @@ namespace player
 
         private void OnEnable()
         {
-            InitPlayer();
+            _playerInput.OnMove += _playerMovement.Move;
+            _playerInput.OnFirePressed += _playerShootingManager.Fire;
+            _playerInput.OnFireHeld += _playerShootingManager.ChargeFire;
         }
 
         private void OnDisable()
         {
             _playerInput.OnMove -= _playerMovement.Move;
+            _playerInput.OnFirePressed -= _playerShootingManager.Fire;
+            _playerInput.OnFireHeld -= _playerShootingManager.ChargeFire;
+        }
+
+        private void Start()
+        {
+            InitPlayer();
         }
 
         private void InitPlayer()
@@ -59,8 +70,10 @@ namespace player
             // Player Input
             _playerInput.EnableInput(true);
 
-            // Player Movement
-            _playerInput.OnMove += _playerMovement.Move;
+            // Default weapon
+            _playerShootingManager.InstallWeapon(ShootingManager.WeaponPosition.LEFT);
+            //_playerShootingManager.InstallWeapon(ShootingManager.WeaponPosition.CENTER);
+            _playerShootingManager.InstallWeapon(ShootingManager.WeaponPosition.RIGHT);
         }
     }
 }
