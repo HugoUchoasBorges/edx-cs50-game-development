@@ -132,7 +132,7 @@
             <key>datafile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>export/space_shooter</filename>
+                <filename>export/space_shooter.tpsheet</filename>
             </struct>
         </map>
         <key>multiPack</key>
