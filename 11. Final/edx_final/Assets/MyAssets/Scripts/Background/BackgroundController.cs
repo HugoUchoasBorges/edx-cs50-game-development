@@ -9,15 +9,9 @@ namespace background
         [Header("Components")]
         [SerializeField] private ParticleSystem _bgParticles;
 
-        private void Start()
-        {
-            InitBackground();
-        }
-
-
         // ========================== Init ============================
 
-        private void InitBackground()
+        public void Init()
         {
             _bgParticles.Play();
         }

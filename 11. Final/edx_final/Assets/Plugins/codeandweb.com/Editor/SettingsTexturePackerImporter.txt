@@ -1,12 +1,12 @@
 version: 2
 importPivots: 1
 tpsheetFileNames:
-- Assets/Assets/Images/Atlas/space_shooter.tpsheet
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+- Assets/MyAssets/Images/Atlas/space_shooter.tpsheet
 textureFileNames:
-- Assets/Assets/Images/Atlas/space_shooter.png
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+- Assets/MyAssets/Images/Atlas/space_shooter.png
 normalmapFileNames:
-- 
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
 enableDebugOutput: 0
