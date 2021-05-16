@@ -11,6 +11,8 @@ namespace props
     public class Prop : MonoBehaviour, IPoolable
     {
         private Rigidbody2D _rigidbody2d;
+        public Vector2 Velocity => _rigidbody2d.velocity;
+
         private void Awake()
         {
             _rigidbody2d = GetComponent<Rigidbody2D>();
