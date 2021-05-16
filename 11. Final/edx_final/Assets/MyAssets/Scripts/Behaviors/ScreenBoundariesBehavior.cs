@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,11 @@ namespace behaviors
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
+
+        // ========================== Borders ============================
+
+        public Action OnBorderReached = null;
+
         public void EnableBorders(bool value) => _bordersEnabled = value;
 
         public void SetBorders(Rect rect, Vector2 objectSize, bool enable = true)
@@ -38,26 +44,43 @@ namespace behaviors
             EnableBorders(enable);
         }
 
+        private bool _borderReached;
         private float _velocityX;
         private float _velocityY;
         private void CheckBorders()
         {
+            _borderReached = false;
+
             _velocityX = _rigidbody2D.velocity.x;
             _velocityY = _rigidbody2D.velocity.y;
 
             // X Movement
             if (_velocityX > 0 && transform.position.x > (_borders.x + _borders.width))
+            {
                 _velocityX = 0;
+                _borderReached = true;
+            }
             else if (_velocityX < 0 && transform.position.x < (_borders.x - _borders.width))
+            {
                 _velocityX = 0;
+                _borderReached = true;
+            }
 
             // Y Movement
             if (_velocityY > 0 && transform.position.y > (_borders.y + _borders.height))
+            {
                 _velocityY = 0;
+                _borderReached = true;
+            }
             else if (_velocityY < 0 && transform.position.y < (_borders.y - _borders.height))
+            {
                 _velocityY = 0;
+                _borderReached = true;
+            }
 
             _rigidbody2D.velocity = new Vector2(_velocityX, _velocityY);
+
+            if (_borderReached) OnBorderReached?.Invoke();
         }
 
 

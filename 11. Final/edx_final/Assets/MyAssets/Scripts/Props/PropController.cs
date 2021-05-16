@@ -9,7 +9,7 @@ namespace props
 {
     public class PropController : MonoBehaviour
     {
-        private const int _propCountMax = 5;
+        private const int _propCountMax = 10;
 
         private Pool<Prop> _propsBig;
         private Pool<Prop> _propsSmall;
@@ -28,17 +28,58 @@ namespace props
             _collectables = new Pool<Collectable>(_propCountMax * 8, "Prefabs/Collectable");
         }
 
+
+        // ========================== Spawn ============================
+
+        private Coroutine _spawnPropsCoroutine = null;
+
         public void SpawnProp()
         {
             GenerateBigProp(new Vector2(0, 3), new Vector2(0, -.5f), 180);
         }
 
+        public void SpawnPropsLoop(float spawnDelay)
+        {
+            KillSpawnPropsCoroutine();
+            _spawnPropsCoroutine = StartCoroutine(SpawnPropsCoroutine(spawnDelay));
+        }
+
+        public void StopSpawningProps()
+        {
+            KillSpawnPropsCoroutine();
+        }
+
+        private IEnumerator SpawnPropsCoroutine(float delay)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(delay);
+                SpawnProp();
+            }
+        }
+
+        private void KillSpawnPropsCoroutine()
+        {
+            if(_spawnPropsCoroutine != null)
+            {
+                StopCoroutine(_spawnPropsCoroutine);
+                _spawnPropsCoroutine = null;
+            }
+        }
+
+
+        // ========================== Generic Props ============================
+
+        private void DestroyProp(Pool<Prop> props, Prop prop)
+        {
+            props.Destroy(prop);
+        }
 
         // ========================== Big Props ============================
 
         private void GenerateBigProp(Vector2 position, Vector2 velocity, float torque = 0)
         {
-            _propsBig.Instantiate(transform).StartProp(position, velocity, DestroyBigProp, torque);
+            _propsBig.Instantiate(transform)?.StartProp(position, velocity, DestroyBigProp, DestroyBigPropImmediate, torque);
         }
 
         private void DestroyBigProp(Prop prop)
@@ -59,7 +100,12 @@ namespace props
                     );
             }
 
-            _propsBig.Destroy(prop);
+            DestroyProp(_propsBig, prop);
+        }
+
+        private void DestroyBigPropImmediate(Prop prop)
+        {
+            DestroyProp(_propsBig, prop);
         }
 
 
@@ -67,7 +113,7 @@ namespace props
 
         private void GenerateSmallProp(Vector2 position, Vector2 velocity, float torque = 0)
         {
-            _propsSmall.Instantiate(transform).StartProp(position, velocity, DestroySmallProp, torque);
+            _propsSmall.Instantiate(transform)?.StartProp(position, velocity, DestroySmallProp, DestroySmallPropImmediate, torque);
         }
 
         private void DestroySmallProp(Prop prop)
@@ -77,7 +123,12 @@ namespace props
             GenerateSmallExplosion(propPosition);
             GenerateCollectables(propPosition, 2);
 
-            _propsSmall.Destroy(prop);
+            DestroyProp(_propsSmall, prop);
+        }
+
+        private void DestroySmallPropImmediate(Prop prop)
+        {
+            DestroyProp(_propsSmall, prop);
         }
 
 
@@ -85,12 +136,12 @@ namespace props
 
         private void GenerateBigExplosion(Vector2 position)
         {
-            _propsExplosion.Instantiate(transform).Play(position, (obj) => _propsExplosion.Destroy(obj));
+            _propsExplosion.Instantiate(transform)?.Play(position, (obj) => _propsExplosion.Destroy(obj));
         }
 
         private void GenerateSmallExplosion(Vector2 position)
         {
-            _propsExplosionSmall.Instantiate(transform).Play(position, (obj) => _propsExplosion.Destroy(obj));
+            _propsExplosionSmall.Instantiate(transform)?.Play(position, (obj) => _propsExplosion.Destroy(obj));
         }
 
         // ========================== Collectables ============================
@@ -100,7 +151,7 @@ namespace props
             int points = Random.Range(0, maxPoints + 1);
             for (int i = 0; i < points; i++)
             {
-                _collectables.Instantiate(transform).Init(position + GetRandomVector2(.4f, .4f), OnCollectableCollided);
+                _collectables.Instantiate(transform)?.Init(position + GetRandomVector2(.4f, .4f), OnCollectableCollided);
             }
         }
 

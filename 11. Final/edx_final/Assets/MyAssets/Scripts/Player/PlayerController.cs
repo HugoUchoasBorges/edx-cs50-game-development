@@ -3,6 +3,7 @@ using player.shooting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using util;
 
 namespace player
 {
@@ -49,15 +50,14 @@ namespace player
         public void Init()
         {
             // Screen bounds
-            Vector2 _screenBorders = _camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, _camera.transform.position.z));
             Vector3 playerSize = _spriteRenderer.bounds.size;
 
             _screenBoundariesBehavior.SetBorders(
                 new Rect(
                     0, // x
                     0, // y
-                    _screenBorders.x, // width
-                    _screenBorders.y // height
+                    Constants.ScreenBounds.x, // width
+                    Constants.ScreenBounds.y // height
                     ), 
                 playerSize
                 );
