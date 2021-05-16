@@ -17,7 +17,12 @@ namespace props
         public void SpawnProp()
         {
             Prop prop = _props.Instantiate(transform);
-            prop.StartProp(Vector2.zero, Vector2.one, 1);
+            prop.StartProp(Vector2.one * 2, Vector2.zero, OnPropCollided, 0);
+        }
+
+        private void OnPropCollided(Prop prop)
+        {
+            //_props.Destroy(prop);
         }
     }
 }

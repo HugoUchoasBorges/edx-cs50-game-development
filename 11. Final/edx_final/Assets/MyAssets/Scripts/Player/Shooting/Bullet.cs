@@ -24,11 +24,19 @@ namespace player.shooting
 
         private Action<Bullet> _onDestroy = null;
 
-        public void Fire(float speed = 1, Action<Bullet> onDestroy = null)
+        public void Fire(float speed = 1, Action<Bullet> onCollisionEnter = null)
         {
             _rigidbody2D.velocity = Vector2.up * speed;
-            _onDestroy = onDestroy;
+            this._onDestroy = onCollisionEnter;
             _destroyCoroutine = StartCoroutine(DestroyCoroutine(speed));
+        }
+
+
+        // ========================== Collision ============================
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Destroy();
         }
 
 
