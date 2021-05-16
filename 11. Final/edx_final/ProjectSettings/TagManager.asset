@@ -16,8 +16,8 @@ TagManager:
   - Props
   - PlayerFire
   - EnemyFire
-  - 
-  - 
+  - Collectable
+  - Player
   - 
   - 
   - 

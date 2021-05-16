@@ -29,6 +29,9 @@ TextureImporter:
   - first:
       213: 1650864294838752234
     second: star3
+  - first:
+      213: 8066982334192399610
+    second: pt_collectable
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -168,8 +171,8 @@ TextureImporter:
       name: meteorBrown_small1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 58
+        x: 67
+        y: 64
         width: 28
         height: 28
       alignment: 0
@@ -223,6 +226,27 @@ TextureImporter:
       bones: []
       spriteID: 53eaf3ce1eaa67f00800000000000000
       internalID: 1114265845128736309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pt_collectable
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 22
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af4b3e631bda3ff60800000000000000
+      internalID: 8066982334192399610
       vertices: []
       indices: 
       edges: []
