@@ -181,6 +181,21 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../Images/canvas_box.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <true/>
+                <key>scale9Borders</key>
+                <rect>4,4,56,56</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../Images/pt_collectable.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -330,6 +345,7 @@
             <filename>D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Effects/star2.png</filename>
             <filename>D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Effects/star3.png</filename>
             <filename>../Images/pt_collectable.png</filename>
+            <filename>../Images/canvas_box.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
