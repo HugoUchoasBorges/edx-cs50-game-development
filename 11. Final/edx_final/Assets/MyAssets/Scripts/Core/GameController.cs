@@ -34,7 +34,7 @@ namespace core
             _background.Init();
 
             // Start spawning props
-            _propManager.SpawnPropsLoop(3);
+            _propManager.SpawnPropsLoop(5);
         }
     }
 }

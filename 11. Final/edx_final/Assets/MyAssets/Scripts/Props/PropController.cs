@@ -9,7 +9,9 @@ namespace props
 {
     public class PropController : MonoBehaviour
     {
-        private const int _propCountMax = 10;
+        private const int PROP_MAX_COUNT = 10;
+        private const int PROP_MAX_ANGLE = 30;
+        private const int PROP_MAX_TORQUE = 90;
 
         private Pool<Prop> _propsBig;
         private Pool<Prop> _propsSmall;
@@ -19,29 +21,35 @@ namespace props
 
         private void Awake()
         {
-            _propsBig = new Pool<Prop>(_propCountMax, "Prefabs/Prop");
-            _propsExplosion = new Pool<PropExplosion>(_propCountMax, "Prefabs/PropExplosion");
+            _propsBig = new Pool<Prop>(PROP_MAX_COUNT, "Prefabs/Prop");
+            _propsExplosion = new Pool<PropExplosion>(PROP_MAX_COUNT, "Prefabs/PropExplosion");
 
-            _propsSmall = new Pool<Prop>(_propCountMax * 2, "Prefabs/PropSmall");
-            _propsExplosionSmall = new Pool<PropExplosion>(_propCountMax * 2, "Prefabs/PropExplosionSmall");
+            _propsSmall = new Pool<Prop>(PROP_MAX_COUNT * 2, "Prefabs/PropSmall");
+            _propsExplosionSmall = new Pool<PropExplosion>(PROP_MAX_COUNT * 2, "Prefabs/PropExplosionSmall");
 
-            _collectables = new Pool<Collectable>(_propCountMax * 8, "Prefabs/Collectable");
+            _collectables = new Pool<Collectable>(PROP_MAX_COUNT * 8, "Prefabs/Collectable");
         }
 
 
         // ========================== Spawn ============================
 
         private Coroutine _spawnPropsCoroutine = null;
+        [SerializeField] private Transform[] _spawnPoints;
 
         public void SpawnProp()
         {
-            GenerateBigProp(new Vector2(0, 3), new Vector2(0, -.5f), 180);
+            Transform spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+
+            float velocity = Random.Range(.5f, 1f);
+            Vector2 direction = velocity * (Quaternion.Euler(0, 0, Random.Range(-PROP_MAX_ANGLE, PROP_MAX_ANGLE)) * spawnPoint.up);
+
+            GenerateBigProp(spawnPoint.position, direction, Random.Range(-PROP_MAX_TORQUE, PROP_MAX_TORQUE));
         }
 
-        public void SpawnPropsLoop(float spawnDelay)
+        public void SpawnPropsLoop(float spawnDelay, float spawnChance = 0.5f)
         {
             KillSpawnPropsCoroutine();
-            _spawnPropsCoroutine = StartCoroutine(SpawnPropsCoroutine(spawnDelay));
+            _spawnPropsCoroutine = StartCoroutine(SpawnPropsCoroutine(spawnDelay, spawnChance));
         }
 
         public void StopSpawningProps()
@@ -49,12 +57,13 @@ namespace props
             KillSpawnPropsCoroutine();
         }
 
-        private IEnumerator SpawnPropsCoroutine(float delay)
+        private IEnumerator SpawnPropsCoroutine(float delay, float chance)
         {
             while (true)
             {
                 yield return new WaitForSeconds(delay);
-                SpawnProp();
+                if(Random.Range(0f, 1f) > chance)
+                    SpawnProp();
             }
         }
 
