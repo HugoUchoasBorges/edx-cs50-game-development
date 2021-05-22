@@ -1,4 +1,4 @@
-﻿using player.shooting;
+﻿using behaviors.shooting;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +26,17 @@ namespace helpers
             _size = size;
 
             _prefab = Resources.Load<GameObject>(_path);
+            InitPool();
+        }
+
+        public Pool(int size, GameObject prefab, Transform parent = null)
+        {
+            _parent = parent;
+            if (_parent == null)
+                _parent = GetDefaultPoolParent();
+            _size = size;
+
+            _prefab = prefab;
             InitPool();
         }
 
@@ -66,7 +77,8 @@ namespace helpers
                 T t = _queue.Dequeue();
 
                 if (parent != null) t.gameObject.transform.SetParent(parent, false);
-                t.gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+                //t.gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+                t.gameObject.transform.position = Vector3.zero;
 
                 return t;
             }
@@ -77,7 +89,7 @@ namespace helpers
         public void Destroy(T t)
         {
             _queue.Enqueue(t);
-            t.gameObject.transform.SetParent(_parent);
+            t.gameObject.transform.SetParent(_parent, false);
         }
     }
 }

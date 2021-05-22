@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace player.shooting
+namespace behaviors.shooting
 {
     [RequireComponent(typeof(Rigidbody2D))]
     class Bullet : MonoBehaviour, IPoolable
@@ -26,7 +26,7 @@ namespace player.shooting
 
         public void Fire(float speed = 1, Action<Bullet> onCollisionEnter = null)
         {
-            _rigidbody2D.velocity = Vector2.up * speed;
+            _rigidbody2D.velocity = transform.up * speed;
             this._onDestroy = onCollisionEnter;
             _destroyCoroutine = StartCoroutine(DestroyCoroutine(speed));
         }

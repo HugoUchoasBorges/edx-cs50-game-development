@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
+using util;
 
 namespace props
 {
@@ -21,13 +22,13 @@ namespace props
 
         private void Awake()
         {
-            _propsBig = new Pool<Prop>(PROP_MAX_COUNT, "Prefabs/Prop");
-            _propsExplosion = new Pool<PropExplosion>(PROP_MAX_COUNT, "Prefabs/PropExplosion");
+            _propsBig = new Pool<Prop>(PROP_MAX_COUNT, Constants.PREFAB_PROP);
+            _propsExplosion = new Pool<PropExplosion>(PROP_MAX_COUNT, Constants.PREFAB_PROP_EXPLOSION);
 
-            _propsSmall = new Pool<Prop>(PROP_MAX_COUNT * 2, "Prefabs/PropSmall");
-            _propsExplosionSmall = new Pool<PropExplosion>(PROP_MAX_COUNT * 2, "Prefabs/PropExplosionSmall");
+            _propsSmall = new Pool<Prop>(PROP_MAX_COUNT * 2, Constants.PREFAB_PROP_SMALL);
+            _propsExplosionSmall = new Pool<PropExplosion>(PROP_MAX_COUNT * 2, Constants.PREFAB_PROP_EXPLOSION_SMALL);
 
-            _collectables = new Pool<Collectable>(PROP_MAX_COUNT * 8, "Prefabs/Collectable");
+            _collectables = new Pool<Collectable>(PROP_MAX_COUNT * 8, Constants.PREFAB_COLLECTABLE);
         }
 
 

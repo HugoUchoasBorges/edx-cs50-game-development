@@ -18,7 +18,7 @@ TagManager:
   - EnemyFire
   - Collectable
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -44,6 +44,12 @@ TagManager:
   - name: Background
     uniqueID: 14773255
     locked: 0
+  - name: Enemy
+    uniqueID: 373373595
+    locked: 0
   - name: Player
     uniqueID: 3810440929
+    locked: 0
+  - name: Props
+    uniqueID: 2812412083
     locked: 0

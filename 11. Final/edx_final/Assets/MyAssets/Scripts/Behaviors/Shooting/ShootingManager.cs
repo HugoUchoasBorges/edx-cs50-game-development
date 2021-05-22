@@ -1,13 +1,16 @@
 ﻿using helpers;
 using System.Collections.Generic;
 using UnityEngine;
+using util;
 
-namespace player.shooting
+namespace behaviors.shooting
 {
     public class ShootingManager : MonoBehaviour
     {
 
         // ========================== Weapons configuration ============================
+
+        [SerializeField] private GameObject _weaponPrefab;
 
         [Header("Weapon Installs")]
         [SerializeField] private WeaponInstall _weaponLeft;
@@ -19,7 +22,10 @@ namespace player.shooting
 
         private void Awake()
         {
-            _weaponsPool = new Pool<Weapon>(3, "Prefabs/Weapon");
+            if (_weaponPrefab != null)
+                _weaponsPool = new Pool<Weapon>(3, _weaponPrefab);
+            else
+                _weaponsPool = new Pool<Weapon>(3, Constants.PREFAB_WEAPON);
 
             _weapons = new Dictionary<WeaponPosition, WeaponInstall>()
             {
@@ -54,7 +60,6 @@ namespace player.shooting
         public class WeaponInstall
         {
             public Transform position;
-            public Quaternion rotation = Quaternion.identity;
 
             private Weapon _weapon;
             public Weapon weapon
@@ -64,7 +69,6 @@ namespace player.shooting
                 {
                     _weapon = value;
                     _weapon.gameObject.transform.SetParent(position, false);
-                    _weapon.gameObject.transform.rotation = rotation;
                 }
             }
         }

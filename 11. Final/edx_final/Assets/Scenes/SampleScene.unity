@@ -185,6 +185,7 @@ MonoBehaviour:
   _player: {fileID: 270783386}
   _background: {fileID: 425594443}
   _propManager: {fileID: 1230404033}
+  _enemyManager: {fileID: 242912749}
 --- !u!4 &81716986
 Transform:
   m_ObjectHideFlags: 0
@@ -228,6 +229,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 270783384}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &242912748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242912750}
+  - component: {fileID: 242912749}
+  m_Layer: 0
+  m_Name: EnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &242912749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242912748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af22babf12c950d4ba2d14146897e11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 8426470698114747637, guid: 41d435a7bf0445e419734f0366366466, type: 3}
+--- !u!4 &242912750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242912748}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &270783382
 GameObject:
@@ -290,7 +335,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -484526367
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 1114265845128736309, guid: 7eabd413b7fdaeb44b46a03a4fca7ef7,
     type: 3}
@@ -417,15 +462,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d7d0d3545ceec41a10c797b607b246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponPrefab: {fileID: 5062552032597253788, guid: fb0025e233fb42e41bd4807cac289d4f,
+    type: 3}
   _weaponLeft:
     position: {fileID: 1557203929}
-    rotation: {x: 0, y: 0, z: 180, w: 0}
   _weaponCenter:
     position: {fileID: 206331791}
-    rotation: {x: 0, y: 0, z: 180, w: 0}
   _weaponRight:
     position: {fileID: 955781547}
-    rotation: {x: 0, y: 0, z: 180, w: 0}
 --- !u!60 &270783391
 PolygonCollider2D:
   m_ObjectHideFlags: 0

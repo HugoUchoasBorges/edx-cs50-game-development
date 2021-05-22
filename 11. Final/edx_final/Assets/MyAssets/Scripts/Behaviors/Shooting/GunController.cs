@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace player.shooting
+namespace behaviors.shooting
 {
     class GunController : MonoBehaviour
     {

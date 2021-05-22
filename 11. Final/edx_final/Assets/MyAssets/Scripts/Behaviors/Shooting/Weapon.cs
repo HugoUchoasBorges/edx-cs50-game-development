@@ -1,13 +1,13 @@
-﻿
-using helpers;
-using System.Collections.Generic;
+﻿using helpers;
 using UnityEngine;
+using util;
 
-namespace player.shooting
+namespace behaviors.shooting
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class Weapon : MonoBehaviour, IPoolable
     {
+        [SerializeField] private GameObject _bulletPrefab;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         // ========================== Bullet pool logic ============================
@@ -16,7 +16,10 @@ namespace player.shooting
 
         private void Awake()
         {
-            _bullets = new Pool<Bullet>(30, "Prefabs/Bullet");
+            if (_bulletPrefab != null)
+                _bullets = new Pool<Bullet>(10, _bulletPrefab);
+            else
+                _bullets = new Pool<Bullet>(10, Constants.PREFAB_BULLET);
         }
 
         // ========================== Fire ============================

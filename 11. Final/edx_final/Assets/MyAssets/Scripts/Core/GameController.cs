@@ -1,8 +1,7 @@
 ﻿using background;
+using enemy;
 using player;
 using props;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using util;
 
@@ -15,6 +14,7 @@ namespace core
         [SerializeField] private PlayerController _player;
         [SerializeField] private BackgroundController _background;
         [SerializeField] private PropController _propManager;
+        [SerializeField] private EnemyManager _enemyManager;
 
         private void Awake()
         {
@@ -38,6 +38,9 @@ namespace core
 
             // Start spawning props
             _propManager.SpawnPropsLoop(5);
+
+            // Start spawning enemies
+            _enemyManager.SpawnEnemy();
         }
     }
 }

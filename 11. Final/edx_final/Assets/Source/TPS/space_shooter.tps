@@ -257,6 +257,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Enemies/enemyGreen1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,21,47,42</rect>
+                <key>scale9Paddings</key>
+                <rect>23,21,47,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Meteors/meteorBrown_big1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -346,6 +361,7 @@
             <filename>D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Effects/star3.png</filename>
             <filename>../Images/pt_collectable.png</filename>
             <filename>../Images/canvas_box.png</filename>
+            <filename>D:/OneDrive/Game Development/Humble Bundle DEV/Assets/Art/Mega Packs/Kenney Game Assets/2D assets/Space Shooter Pack/PNG/Enemies/enemyGreen1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

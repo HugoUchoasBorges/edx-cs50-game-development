@@ -35,6 +35,9 @@ TextureImporter:
   - first:
       213: -3082131331704283306
     second: canvas_box
+  - first:
+      213: 5050708345718964257
+    second: enemyGreen1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,8 +114,8 @@ TextureImporter:
       name: canvas_box
       rect:
         serializedVersion: 2
-        x: 104
-        y: 114
+        x: 1
+        y: 28
         width: 64
         height: 64
       alignment: 0
@@ -124,6 +127,27 @@ TextureImporter:
       bones: []
       spriteID: 65f1aa632e11a35d0800000000000000
       internalID: -3082131331704283306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemyGreen1
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 94
+        width: 93
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1200eaa0b78b71640800000000000000
+      internalID: 5050708345718964257
       vertices: []
       indices: 
       edges: []
@@ -258,8 +282,8 @@ TextureImporter:
       name: pt_collectable
       rect:
         serializedVersion: 2
-        x: 170
-        y: 88
+        x: 1
+        y: 105
         width: 64
         height: 64
       alignment: 0
@@ -321,8 +345,8 @@ TextureImporter:
       name: star3
       rect:
         serializedVersion: 2
-        x: 170
-        y: 154
+        x: 199
+        y: 149
         width: 24
         height: 24
       alignment: 0

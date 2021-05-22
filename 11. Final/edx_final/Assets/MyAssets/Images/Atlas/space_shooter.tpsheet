@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # https://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:f4b47dd0b1b92d1587505d3bd54d5dc2:74afb6c80e1ad46c64af9d39a11d5163:f88c2dea5bcbca061a448ea2c80a33fc$
+# $TexturePacker:SmartUpdate:c1019f8732273f4c360b4b96cf6e2ea3:8872c3dc1628469700e05594f1f7bf37:f88c2dea5bcbca061a448ea2c80a33fc$
 #
 :format=40300
 :texture=space_shooter.png
@@ -13,14 +13,15 @@
 :borders=enabled
 :alphahandling=KeepTransparentPixels
 
-canvas_box;104;114;64;64; 0.5;0.5; 4;4;4;4
+canvas_box;1;28;64;64; 0.5;0.5; 4;4;4;4
+enemyGreen1;104;94;93;84; 0.5;0.5; 0;0;0;0
 fire05;232;166;14;31; 0.5;0.5; 0;0;0;0
 gun00;235;199;16;36; 0.5;0.5; 0;0;0;0
 meteorBrown_big1;1;171;101;84; 0.5;0.5; 0;0;0;0
 meteorBrown_small1;205;227;28;28; 0.5;0.5; 0;0;0;0
 meteorBrown_tiny1;235;237;18;18; 0.5;0.5; 0;0;0;0
 playerShip1_red;104;180;99;75; 0.5;0.5; 0;0;0;0
-pt_collectable;170;88;64;64; 0.5;0.5; 0;0;0;0
+pt_collectable;1;105;64;64; 0.5;0.5; 0;0;0;0
 star1;205;201;25;24; 0.5;0.5; 0;0;0;0
 star2;205;175;25;24; 0.5;0.5; 0;0;0;0
-star3;170;154;24;24; 0.5;0.5; 0;0;0;0
+star3;199;149;24;24; 0.5;0.5; 0;0;0;0

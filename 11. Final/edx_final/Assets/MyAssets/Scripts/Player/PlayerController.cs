@@ -1,7 +1,5 @@
 ﻿using behaviors;
-using player.shooting;
-using System.Collections;
-using System.Collections.Generic;
+using behaviors.shooting;
 using UnityEngine;
 using util;
 
@@ -16,7 +14,7 @@ namespace player
 
         [Header("Input & Behaviors")]
         [SerializeField] private PlayerInput _playerInput;
-        [SerializeField] private PlayerMovementBehavior _playerMovement;
+        [SerializeField] private MovementBehavior _playerMovement;
         [SerializeField] private ShootingManager _playerShootingManager;
         [SerializeField] private ScreenBoundariesBehavior _screenBoundariesBehavior;
 

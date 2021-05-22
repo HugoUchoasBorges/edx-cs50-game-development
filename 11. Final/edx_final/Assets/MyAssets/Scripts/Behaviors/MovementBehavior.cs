@@ -1,10 +1,9 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace player
+namespace behaviors
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    class PlayerMovementBehavior : MonoBehaviour
+    class MovementBehavior : MonoBehaviour
     {
         // ========================== Components ============================
 
